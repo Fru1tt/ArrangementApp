@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Upcoming Events</h1>
+        <ul class="list-group mt-4">
+            {% for event in events %}
+            <li class="list-group-item">
+                <h5>{{ event.title }}</h5>
+                <p>{{ event.description }}</p>
+                <small>{{ event.date }}</small>
+            </li>
+            {% empty %}
+            <li class="list-group-item">No events available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
