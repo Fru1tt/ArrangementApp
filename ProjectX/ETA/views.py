@@ -3,7 +3,7 @@ from .models import Event
 from django.contrib.auth.forms import UserCreationForm
 
 def event_list(request):
-    events = Event.objects.all().order_by('date')
+    events = Event.objects.all().order_by('start_date')
     return render(request, 'ETA/event_list.html', {'events': events})
 
 def register(request):
