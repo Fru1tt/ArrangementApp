@@ -1,17 +1,17 @@
 {% extends "ETA/base.html" %}
 
-{% block title %}Login{% endblock title %}
+{% block title %}Create Event{% endblock title %}
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Login</h2>
+    <h2>Create New Event</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-success">Create Event</button>
     </form>
     <p class="mt-3">
-        Don't have an account? <a href="{% url 'register' %}">Register here</a>.
+        <a href="{% url 'my_events' %}">Back to My Events</a>
     </p>
 </div>
 {% endblock content %}
