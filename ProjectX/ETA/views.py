@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import EventForm
 from django.contrib.auth import logout
+from django.contrib import messages
 
 
 
@@ -36,8 +37,11 @@ def create_event(request):
         form = EventForm()
     return render(request, 'ETA/create_event.html', {'form': form})
 
-@login_required
+
 def my_events(request):
+    if not request.user.is_authenticated:
+         messages.warning(request, "You have to log in to use this feature.")
+         return redirect('login')
     events = Event.objects.filter(host=request.user).order_by('start_date')
     return render(request, 'ETA/my_events.html', {'events': events})
 
