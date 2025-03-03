@@ -6,11 +6,10 @@
 <div class="container mt-4">
     <h1>{{ event.title }}</h1>
     
-    <!-- Optional Event Picture -->
+    <!-- Display Event Picture -->
     {% if event.image %}
       <img src="{{ event.image.url }}" alt="Event Image" class="img-fluid mb-3">
     {% else %}
-      <!-- Optionally, show a default image or nothing -->
       <img src="https://via.placeholder.com/600x300?text=No+Image" alt="No Image Available" class="img-fluid mb-3">
     {% endif %}
 
@@ -24,14 +23,14 @@
       {% endif %}
     </p>
 
-    <!-- Placeholder for Attendance Buttons (to be implemented later) -->
+    <!-- Placeholder for Attendance Buttons -->
     <div class="mb-3">
       <button class="btn btn-success">Attending</button>
       <button class="btn btn-secondary">Not Attending</button>
       <button class="btn btn-info">Interested</button>
     </div>
 
-    <!-- Show an Edit button if the current user is the host -->
+    <!-- Only the event host sees the Edit button -->
     {% if user.is_authenticated and user == event.host %}
       <a href="{% url 'event_edit' event.id %}" class="btn btn-warning">Edit Event</a>
     {% endif %}

@@ -1,0 +1,15 @@
+{% extends "ETA/base.html" %}
+
+{% block title %}Edit Event{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Event</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+    <a href="{% url 'event_detail' event.id %}" class="btn btn-link mt-2">Cancel</a>
+</div>
+{% endblock content %}
