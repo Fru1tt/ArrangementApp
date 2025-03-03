@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 
 
 def event_list(request):
-    events = Event.objects.all().order_by('start_date')
+    events = Event.objects.filter(is_public = True).order_by('start_date')
     return render(request, 'ETA/event_list.html', {'events': events})
 
 def register(request):
