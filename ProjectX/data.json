@@ -1,0 +1,536 @@
+[
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2025-02-24T16:19:15.294Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "Datenight fabian's mor",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2025-02-24T16:26:50.208Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "Datenight fabian's mor",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2025-02-24T17:46:23.277Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "PDiddy",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2025-02-25T13:48:20.984Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "3",
+        "object_repr": "Pardy",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Title\", \"Description\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2025-02-25T13:48:31.460Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "4",
+        "object_repr": "Øve",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Title\", \"Description\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2025-02-25T13:57:39.944Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "Datenight fabian's mor",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Host\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2025-02-25T13:57:43.946Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "PDiddy",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Host\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2025-03-03T13:35:18.212Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "Datenight fabian's mor",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": 1,
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": 1,
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": 1,
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+        "name": "Can view log entry",
+        "content_type": 1,
+        "codename": "view_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+        "name": "Can add permission",
+        "content_type": 2,
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+        "name": "Can change permission",
+        "content_type": 2,
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": 2,
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+        "name": "Can view permission",
+        "content_type": 2,
+        "codename": "view_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+        "name": "Can add group",
+        "content_type": 3,
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+        "name": "Can change group",
+        "content_type": 3,
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+        "name": "Can delete group",
+        "content_type": 3,
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+        "name": "Can view group",
+        "content_type": 3,
+        "codename": "view_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+        "name": "Can add user",
+        "content_type": 4,
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+        "name": "Can change user",
+        "content_type": 4,
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+        "name": "Can delete user",
+        "content_type": 4,
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+        "name": "Can view user",
+        "content_type": 4,
+        "codename": "view_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+        "name": "Can add content type",
+        "content_type": 5,
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+        "name": "Can change content type",
+        "content_type": 5,
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": 5,
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+        "name": "Can view content type",
+        "content_type": 5,
+        "codename": "view_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+        "name": "Can add session",
+        "content_type": 6,
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+        "name": "Can change session",
+        "content_type": 6,
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+        "name": "Can delete session",
+        "content_type": 6,
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+        "name": "Can view session",
+        "content_type": 6,
+        "codename": "view_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+        "name": "Can add event",
+        "content_type": 7,
+        "codename": "add_event"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+        "name": "Can change event",
+        "content_type": 7,
+        "codename": "change_event"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+        "name": "Can delete event",
+        "content_type": 7,
+        "codename": "delete_event"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+        "name": "Can view event",
+        "content_type": 7,
+        "codename": "view_event"
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$Od9JsEQyIRGHppGrCvFunn$vhfv5OKJwS5+n7AFdrpxX6WqL0HePUPQTX6D9ti6OTU=",
+        "last_login": "2025-03-03T15:32:29.656Z",
+        "is_superuser": true,
+        "username": "carlgrude",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-02-24T16:07:37.344Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$0hyH8oBitsULeHf5VQtmtD$G9wClbIN1m7fSTdaElS3Ypg83szxalsHBWEAaq9dafs=",
+        "last_login": null,
+        "is_superuser": true,
+        "username": "LK",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-02-24T16:09:37.549Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$870000$1czKsWty9dszEXsUb6Ttda$UPN/Xbd/chHy+pSXw4sKyAO0aEFk4a/Qg55JeE/DZQw=",
+        "last_login": "2025-03-03T15:33:31.622Z",
+        "is_superuser": false,
+        "username": "carlgrude1",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-02-24T16:59:28.351Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+        "app_label": "admin",
+        "model": "logentry"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+        "app_label": "auth",
+        "model": "permission"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+        "app_label": "auth",
+        "model": "group"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+        "app_label": "auth",
+        "model": "user"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+        "app_label": "contenttypes",
+        "model": "contenttype"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+        "app_label": "sessions",
+        "model": "session"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+        "app_label": "ETA",
+        "model": "event"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "dfm6scnnpfox5rh86d29y34449ynrjns",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAQRf-FtSEdGF4u3fsNBBiQqoGktCvjv2uTLnR7zzn3xXzY1uq3kRc_EzszYKffLYb0yG0HdA_t1nnqbV3myHeFH3Twa6f8vBzu30ENo35rVUA4kA6tIZwEBacxSkVRkMmKSBWUBaxDoaKJzmpbIBWZJjCoUAN7fwDFHTb2:1tmcG5:grrr5resypLS3vCzPEOtOkZMk0w8b23ORou3gCvs-s0",
+        "expire_date": "2025-03-10T17:28:45.021Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "iyk7ce2m7dciwma27anrkg4lsdo3mhfe",
+    "fields": {
+        "session_data": ".eJxVjMsOwiAQRf-FtSGBoTxcuvcbyMAMUjWQlHZl_Hdt0oVu7znnvkTEba1xG7zEmcRZgDj9bgnzg9sO6I7t1mXubV3mJHdFHnTIayd-Xg7376DiqN-aASAHtnZitEmT0YwlBet08sarTKYU0CYU5XUogYJTijFb5yfngbN4fwDuozf7:1tp7nP:AFl16PcXzpssKqjd8YW8aDNmdR_6cXzet_YUvAcybJ0",
+        "expire_date": "2025-03-17T15:33:31.624Z"
+    }
+},
+{
+    "model": "ETA.event",
+    "pk": 1,
+    "fields": {
+        "title": "Datenight fabian's mor",
+        "description": "sexytime",
+        "start_date": "2025-02-24T17:45:12Z",
+        "end_date": "2025-02-24T00:00:00Z",
+        "is_public": true,
+        "created_at": "2025-02-24T16:19:15.292Z",
+        "host": 2
+    }
+},
+{
+    "model": "ETA.event",
+    "pk": 2,
+    "fields": {
+        "title": "PDiddy",
+        "description": "",
+        "start_date": "2025-02-26T19:00:00Z",
+        "end_date": "2025-02-27T04:00:00Z",
+        "is_public": true,
+        "created_at": "2025-02-24T17:46:23.275Z",
+        "host": 3
+    }
+},
+{
+    "model": "ETA.event",
+    "pk": 3,
+    "fields": {
+        "title": "Pardy",
+        "description": "Med LK",
+        "start_date": "2025-02-27T18:47:00Z",
+        "end_date": "2025-02-26T03:00:00Z",
+        "is_public": false,
+        "created_at": "2025-02-25T13:44:42.872Z",
+        "host": 3
+    }
+},
+{
+    "model": "ETA.event",
+    "pk": 4,
+    "fields": {
+        "title": "Øve",
+        "description": "Jobbe web dev",
+        "start_date": "2025-02-25T14:45:00Z",
+        "end_date": "2025-02-25T17:45:00Z",
+        "is_public": true,
+        "created_at": "2025-02-25T13:45:28.136Z",
+        "host": 3
+    }
+}
+]
