@@ -10,6 +10,7 @@ class Event(models.Model):
     is_public = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    image = models.ImageField(upload_to='event_images/', null=True, blank=True)
 
     def __str__(self):
         return self.title
