@@ -22,6 +22,11 @@
                   </p>
                 {% endif %}
                 <a href="#" class="btn btn-primary">View Details</a>
+                {% if event.is_public %}
+                <span class="badge badge-success">Public</span>
+                {% else %}
+                    <span class="badge badge-secondary">Private</span>
+                {% endif %}
             </div>
         </div>
     </div>
