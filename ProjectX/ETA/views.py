@@ -3,6 +3,7 @@ from .models import Event
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import EventForm
+from django.contrib.auth import logout
 
 
 
@@ -39,3 +40,11 @@ def create_event(request):
 def my_events(request):
     events = Event.objects.filter(host=request.user).order_by('start_date')
     return render(request, 'ETA/my_events.html', {'events': events})
+
+@login_required
+def profile(request):
+    return render(request, 'ETA/profile.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('event_list')
