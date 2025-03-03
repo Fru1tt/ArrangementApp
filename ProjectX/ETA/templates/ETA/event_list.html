@@ -20,7 +20,7 @@
                     Time: {{ event.start_date|date:"d M H:i" }} - {{ event.end_date|date:"d M H:i" }}
                   </p>
                 {% endif %}
-                <a href="#" class="btn btn-primary">View Details</a>
+                <a href="{% url 'event_detail' event.id %}" class="btn btn-primary">View Details</a>
                 {% if event.is_public %}
                 <span class="badge badge-success">Public</span>
                 {% else %}

@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Event
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import EventForm
 from django.contrib.auth import logout
 from django.contrib import messages
+from django.http import HttpResponse
 
 
 
@@ -52,3 +53,13 @@ def profile(request):
 def logout_view(request):
     logout(request)
     return redirect('event_list')
+
+def event_detail(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    return render(request, 'ETA/event_detail.html', {'event': event})
+
+
+
+def event_edit(request, event_id):
+    # Placeholder response; you'll implement full editing functionality later.
+    return HttpResponse("Event editing functionality is under construction.")

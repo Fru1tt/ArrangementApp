@@ -1,0 +1,41 @@
+{% extends "ETA/base.html" %}
+
+{% block title %}{{ event.title }}{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ event.title }}</h1>
+    
+    <!-- Optional Event Picture -->
+    {% if event.image %}
+      <img src="{{ event.image.url }}" alt="Event Image" class="img-fluid mb-3">
+    {% else %}
+      <!-- Optionally, show a default image or nothing -->
+      <img src="https://via.placeholder.com/600x300?text=No+Image" alt="No Image Available" class="img-fluid mb-3">
+    {% endif %}
+
+    <p>{{ event.description }}</p>
+    
+    <p class="text-muted">
+      {% if event.start_date|date:"Y-m-d" == event.end_date|date:"Y-m-d" %}
+        Time: {{ event.start_date|date:"d M" }} {{ event.start_date|date:"H:i" }} - {{ event.end_date|date:"H:i" }}
+      {% else %}
+        Time: {{ event.start_date|date:"d M H:i" }} - {{ event.end_date|date:"d M H:i" }}
+      {% endif %}
+    </p>
+
+    <!-- Placeholder for Attendance Buttons (to be implemented later) -->
+    <div class="mb-3">
+      <button class="btn btn-success">Attending</button>
+      <button class="btn btn-secondary">Not Attending</button>
+      <button class="btn btn-info">Interested</button>
+    </div>
+
+    <!-- Show an Edit button if the current user is the host -->
+    {% if user.is_authenticated and user == event.host %}
+      <a href="{% url 'event_edit' event.id %}" class="btn btn-warning">Edit Event</a>
+    {% endif %}
+
+    <a href="{% url 'event_list' %}" class="btn btn-link">Back to Event List</a>
+</div>
+{% endblock content %}
