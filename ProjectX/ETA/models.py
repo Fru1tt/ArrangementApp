@@ -1,5 +1,10 @@
 from django.db import models
 from django.conf import settings
+#----------------------#
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # Create your models here.
 class Event(models.Model):
@@ -14,3 +19,33 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+    
+    #---------------------------Extending the User Model with a Profile--------------------------------#
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # Self-referential ManyToManyField for friend relationships.
+    friends = models.ManyToManyField("self", blank=True, symmetrical=True)
+    # You can add additional fields like a bio or profile picture:
+    bio = models.TextField(blank=True)
+    image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+    
+#---------------------------Friend request model--------------------------------#
+class FriendRequest(models.Model):
+    from_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friend_requests_sent')
+    to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friend_requests_received')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        unique_together = ('from_user', 'to_user')
+
+    def __str__(self):
+        return f"Friend request from {self.from_user} to {self.to_user}"
+    
+    #-----------------------------------Auto-Creation of Profiles via Signals-----------------------#
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        # Create a Profile for the new user
+        Profile.objects.create(user=instance)

@@ -72,3 +72,59 @@ def event_edit(request, event_id):
         form = EventForm(instance=event)
     
     return render(request, 'ETA/event_edit.html', {'form': form, 'event': event})
+
+#-----------------------------Friend Search----------------------#
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+@login_required
+def friend_page(request):
+    query = request.GET.get('q', '')
+    results = []
+    if query:
+        # Filter users by username (case-insensitive), excluding the current user.
+        results = User.objects.filter(username__icontains=query).exclude(id=request.user.id)
+    
+    # Get incoming friend requests for the current user.
+    friend_requests = request.user.friend_requests_received.all()
+    
+    # Get current friends from the user's profile.
+    current_friends = request.user.profile.friends.all()
+    
+    context = {
+        'query': query,
+        'results': results,
+        'friend_requests': friend_requests,
+        'current_friends': current_friends,
+    }
+    return render(request, 'ETA/friend_page.html', context)
+
+#-----------------------------Friend request----------------------#
+from .models import FriendRequest
+@login_required
+def send_friend_request(request, to_user_id):
+    to_user = get_object_or_404(User, id=to_user_id)
+    # Prevent sending a request to yourself
+    if to_user != request.user:
+        FriendRequest.objects.get_or_create(from_user=request.user, to_user=to_user)
+    return redirect('friend_page')  # Or redirect to the user's profile
+
+@login_required
+def accept_friend_request(request, request_id):
+    friend_request = get_object_or_404(FriendRequest, id=request_id)
+    # Ensure the current user is the recipient of the friend request
+    if friend_request.to_user == request.user:
+        # Add the sender's profile to the current user's friends.
+        request.user.profile.friends.add(friend_request.from_user.profile)
+        # With a symmetrical ManyToManyField, this relationship is automatically reciprocated.
+        friend_request.delete()  # Remove the friend request once accepted.
+    return redirect('friend_page')
+
+@login_required
+def decline_friend_request(request, request_id):
+    friend_request = get_object_or_404(FriendRequest, id=request_id)
+    # Ensure the current user is the recipient
+    if friend_request.to_user == request.user:
+        friend_request.delete()  # Simply delete the request.
+    return redirect('friend_page')

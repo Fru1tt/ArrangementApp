@@ -1,0 +1,88 @@
+{% extends "ETA/base.html" %}
+{% block title %}Friends{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Friends</h1>
+    
+    <!-- Section 1: Friend Search -->
+    <div class="card mb-4">
+        <div class="card-header">Find Friends</div>
+        <div class="card-body">
+            <form method="get" action="{% url 'friend_page' %}">
+                <div class="form-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search by username" value="{{ query }}">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            {% if query %}
+                <h5 class="mt-3">Search Results for "{{ query }}":</h5>
+                {% if results %}
+                    <ul class="list-group">
+                        {% for user in results %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                {% if user.profile.image %}
+                                    <img src="{{ user.profile.image.url }}" alt="{{ user.username }}'s picture" class="rounded-circle mr-2" style="width:40px; height:40px;">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/40" alt="Default" class="rounded-circle mr-2">
+                                {% endif %}
+                                {{ user.username }}
+                            </div>
+                            <a href="{% url 'send_friend_request' user.id %}" class="btn btn-success btn-sm">Add Friend</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No users found.</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Section 2: Incoming Friend Requests -->
+    <div class="card mb-4">
+        <div class="card-header">Incoming Friend Requests</div>
+        <div class="card-body">
+            {% if friend_requests %}
+                <ul class="list-group">
+                    {% for req in friend_requests %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ req.from_user.username }}
+                            <div>
+                                <a href="{% url 'accept_friend_request' req.id %}" class="btn btn-success btn-sm">Accept</a>
+                                <a href="{% url 'decline_friend_request' req.id %}" class="btn btn-danger btn-sm">Decline</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No incoming friend requests.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Section 3: Current Friends -->
+    <div class="card mb-4">
+        <div class="card-header">Your Friends</div>
+        <div class="card-body">
+            {% if current_friends %}
+                <ul class="list-group">
+                    {% for friend in current_friends %}
+                        <li class="list-group-item">
+                            {% if friend.image %}
+                                <img src="{{ friend.image.url }}" alt="{{ friend.user.username }}'s picture" class="rounded-circle mr-2" style="width:40px; height:40px;">
+                            {% else %}
+                                <img src="https://via.placeholder.com/40" alt="Default" class="rounded-circle mr-2">
+                            {% endif %}
+                            {{ friend.user.username }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You have no friends yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
