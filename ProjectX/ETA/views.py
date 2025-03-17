@@ -4,19 +4,25 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.http import HttpResponseForbidden  
-from .models import Event, FriendRequest  
+from .models import Event, FriendRequest, Profile, Attendance  
 from .forms import EventForm, ProfileUpdateForm
 from django.contrib.auth import get_user_model
-from .models import Profile
 
 User = get_user_model()
 
 
-
-
 def event_list(request):
     events = Event.objects.filter(is_public=True).order_by('start_date')
-    return render(request, 'ETA/event_list.html', {'events': events})
+    if request.user.is_authenticated:
+        events_with_attendance = []
+        for event in events:
+            # Get the attendance record for this event and user (or None if it doesn't exist)
+            attendance = Attendance.objects.filter(user=request.user, event=event).first()
+            events_with_attendance.append({'event': event, 'attendance': attendance})
+        context = {'events_with_attendance': events_with_attendance}
+    else:
+        context = {'events': events}
+    return render(request, 'ETA/event_list.html', context)
 
 def register(request):
     if request.method == 'POST':
@@ -47,7 +53,12 @@ def my_events(request):
          messages.warning(request, "You have to log in to use this feature.")
          return redirect('login')
     events = Event.objects.filter(host=request.user).order_by('start_date')
-    return render(request, 'ETA/my_events.html', {'events': events})
+    events_with_attendance = []
+    for event in events:
+         attendance = Attendance.objects.filter(user=request.user, event=event).first()
+         events_with_attendance.append({'event': event, 'attendance': attendance})
+    context = {'events_with_attendance': events_with_attendance}
+    return render(request, 'ETA/my_events.html', context)
 
 @login_required
 def profile(request):
@@ -59,7 +70,9 @@ def logout_view(request):
 
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    return render(request, 'ETA/event_detail.html', {'event': event})
+    attendance = Attendance.objects.filter(user=request.user, event=event).first()
+    context = {'event': event, 'attendance': attendance}
+    return render(request, 'ETA/event_detail.html', context)
 
 @login_required
 def event_edit(request, event_id):
@@ -137,6 +150,26 @@ def decline_friend_request(request, request_id):
     return redirect('friend_page')
 
 
+#-----------------------------Attendance----------------------#
+@login_required
+def update_attendance(request):
+    if request.method == 'POST':
+        event_id = request.POST.get('event_id')
+        new_status = request.POST.get('status')
+        
+        # Validate new_status if desired
+        
+        event = get_object_or_404(Event, id=event_id)
+        attendance, created = Attendance.objects.get_or_create(user=request.user, event=event)
+        attendance.status = new_status
+        attendance.save()
+        
+        return redirect('event_detail', event_id=event.id)
+    
+    # If it's not a POST request, redirect or show an error
+    return redirect('home')
+
+ #-----------------------------Manage account----------------------#
 @login_required
 def manage_account(request):
     # Ensure a profile exists for the user; create one if it doesn't.
@@ -154,3 +187,4 @@ def manage_account(request):
         profile_form = ProfileUpdateForm(instance=profile)
     
     return render(request, 'ETA/manage_account.html', {'profile_form': profile_form})
+
