@@ -17,4 +17,7 @@ urlpatterns = [
     path('send-friend-request/<int:to_user_id>/', views.send_friend_request, name='send_friend_request'),
     path('accept-friend-request/<int:request_id>/', views.accept_friend_request, name='accept_friend_request'),
     path('decline-friend-request/<int:request_id>/', views.decline_friend_request, name='decline_friend_request'),
+
+    path('attendance/update/', views.update_attendance, name='update_attendance'),
+
 ]

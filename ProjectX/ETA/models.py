@@ -49,3 +49,18 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         # Create a Profile for the new user
         Profile.objects.create(user=instance)
+
+
+#-----------------------------------Attendance buttons-----------------------#
+class Attendance(models.Model):
+    status_choices = (
+        ('going', 'Going'),
+        ('can_go', 'Can Go'),
+        ('not_going', 'Not Going'),
+    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    status = models.CharField(max_length=15, choices=status_choices, default='neutral')
+
+    class Meta:
+        unique_together = ('user', 'event')
