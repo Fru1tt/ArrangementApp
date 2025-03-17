@@ -1,0 +1,20 @@
+{% extends "ETA/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <h2>Update Profile Picture</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ profile_form|crispy }}
+
+        <button type="submit" class="btn btn-primary">Update Picture</button>
+    </form>
+
+    {% if request.user.profile.image %}
+        <h3>Current Profile Picture:</h3>
+        <img src="{{ request.user.profile.image.url }}" alt="Profile Picture" class="img-thumbnail" width="150">
+    {% endif %}
+</div>
+{% endblock %}
