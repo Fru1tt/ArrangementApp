@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Event
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from .forms import EventForm
 from django.contrib.auth import logout
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponseForbidden  
+from .models import Event, FriendRequest  
+from .forms import EventForm, ProfileUpdateForm
+from django.contrib.auth import get_user_model
+from .models import Profile
+
+User = get_user_model()
+
+
+
 
 def event_list(request):
     events = Event.objects.filter(is_public=True).order_by('start_date')
@@ -16,12 +23,11 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')# After successful registration, redirect to login
+            # After successful registration, redirect to login
+            return redirect('login')
     else:
         form = UserCreationForm()
     return render(request, 'ETA/register.html', {'form': form})
-
-
 
 @login_required
 def create_event(request):
@@ -64,7 +70,8 @@ def event_edit(request, event_id):
         return HttpResponseForbidden("You are not allowed to edit this event.")
     
     if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES, instance=event)# Include request.FILES in case there are file fields (e.g., image uploads)
+        # Include request.FILES in case there are file fields (e.g., image uploads)
+        form = EventForm(request.POST, request.FILES, instance=event)
         if form.is_valid():
             form.save()
             return redirect('event_detail', event_id=event.id)
@@ -83,11 +90,14 @@ def friend_page(request):
     query = request.GET.get('q', '')
     results = []
     if query:
-        results = User.objects.filter(username__icontains=query).exclude(id=request.user.id) # Filter users by username (case-insensitive), excluding the current user.
+        # Filter users by username (case-insensitive), excluding the current user.
+        results = User.objects.filter(username__icontains=query).exclude(id=request.user.id)
     
-    friend_requests = request.user.friend_requests_received.all() # Get incoming friend requests for the current user.
+    # Get incoming friend requests for the current user.
+    friend_requests = request.user.friend_requests_received.all()
     
-    current_friends = request.user.profile.friends.all()# Get current friends from the user's profile.
+    # Get current friends from the user's profile.
+    current_friends = request.user.profile.friends.all()
     
     context = {
         'query': query,
@@ -102,22 +112,45 @@ from .models import FriendRequest
 @login_required
 def send_friend_request(request, to_user_id):
     to_user = get_object_or_404(User, id=to_user_id)
-    if to_user != request.user:# Prevent sending a request to yourself
+    # Prevent sending a request to yourself
+    if to_user != request.user:
         FriendRequest.objects.get_or_create(from_user=request.user, to_user=to_user)
     return redirect('friend_page')  # Or redirect to the user's profile
 
 @login_required
 def accept_friend_request(request, request_id):
-    friend_request = get_object_or_404(FriendRequest, id=request_id) # Ensure the current user is the recipient of the friend request
-   
-    if friend_request.to_user == request.user: # Add the sender's profile to the current user's friends.
-        request.user.profile.friends.add(friend_request.from_user.profile) # With a symmetrical ManyToManyField, this relationship is automatically reciprocated.
+    friend_request = get_object_or_404(FriendRequest, id=request_id)
+    # Ensure the current user is the recipient of the friend request
+    if friend_request.to_user == request.user:
+        # Add the sender's profile to the current user's friends.
+        request.user.profile.friends.add(friend_request.from_user.profile)
+        # With a symmetrical ManyToManyField, this relationship is automatically reciprocated.
         friend_request.delete()  # Remove the friend request once accepted.
     return redirect('friend_page')
 
 @login_required
 def decline_friend_request(request, request_id):
-    friend_request = get_object_or_404(FriendRequest, id=request_id)# Ensure the current user is the recipient
+    friend_request = get_object_or_404(FriendRequest, id=request_id)
+    # Ensure the current user is the recipient
     if friend_request.to_user == request.user:
         friend_request.delete()  # Simply delete the request.
     return redirect('friend_page')
+
+
+@login_required
+def manage_account(request):
+    # Ensure a profile exists for the user; create one if it doesn't.
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Your profile picture has been updated successfully!')
+            return redirect('manage_account')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        profile_form = ProfileUpdateForm(instance=profile)
+    
+    return render(request, 'ETA/manage_account.html', {'profile_form': profile_form})
