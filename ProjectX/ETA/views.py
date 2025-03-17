@@ -16,11 +16,12 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            # After successful registration, redirect to login
-            return redirect('login')
+            return redirect('login')# After successful registration, redirect to login
     else:
         form = UserCreationForm()
     return render(request, 'ETA/register.html', {'form': form})
+
+
 
 @login_required
 def create_event(request):
@@ -63,8 +64,7 @@ def event_edit(request, event_id):
         return HttpResponseForbidden("You are not allowed to edit this event.")
     
     if request.method == 'POST':
-        # Include request.FILES in case there are file fields (e.g., image uploads)
-        form = EventForm(request.POST, request.FILES, instance=event)
+        form = EventForm(request.POST, request.FILES, instance=event)# Include request.FILES in case there are file fields (e.g., image uploads)
         if form.is_valid():
             form.save()
             return redirect('event_detail', event_id=event.id)
@@ -83,14 +83,11 @@ def friend_page(request):
     query = request.GET.get('q', '')
     results = []
     if query:
-        # Filter users by username (case-insensitive), excluding the current user.
-        results = User.objects.filter(username__icontains=query).exclude(id=request.user.id)
+        results = User.objects.filter(username__icontains=query).exclude(id=request.user.id) # Filter users by username (case-insensitive), excluding the current user.
     
-    # Get incoming friend requests for the current user.
-    friend_requests = request.user.friend_requests_received.all()
+    friend_requests = request.user.friend_requests_received.all() # Get incoming friend requests for the current user.
     
-    # Get current friends from the user's profile.
-    current_friends = request.user.profile.friends.all()
+    current_friends = request.user.profile.friends.all()# Get current friends from the user's profile.
     
     context = {
         'query': query,
@@ -105,26 +102,22 @@ from .models import FriendRequest
 @login_required
 def send_friend_request(request, to_user_id):
     to_user = get_object_or_404(User, id=to_user_id)
-    # Prevent sending a request to yourself
-    if to_user != request.user:
+    if to_user != request.user:# Prevent sending a request to yourself
         FriendRequest.objects.get_or_create(from_user=request.user, to_user=to_user)
     return redirect('friend_page')  # Or redirect to the user's profile
 
 @login_required
 def accept_friend_request(request, request_id):
-    friend_request = get_object_or_404(FriendRequest, id=request_id)
-    # Ensure the current user is the recipient of the friend request
-    if friend_request.to_user == request.user:
-        # Add the sender's profile to the current user's friends.
-        request.user.profile.friends.add(friend_request.from_user.profile)
-        # With a symmetrical ManyToManyField, this relationship is automatically reciprocated.
+    friend_request = get_object_or_404(FriendRequest, id=request_id) # Ensure the current user is the recipient of the friend request
+   
+    if friend_request.to_user == request.user: # Add the sender's profile to the current user's friends.
+        request.user.profile.friends.add(friend_request.from_user.profile) # With a symmetrical ManyToManyField, this relationship is automatically reciprocated.
         friend_request.delete()  # Remove the friend request once accepted.
     return redirect('friend_page')
 
 @login_required
 def decline_friend_request(request, request_id):
-    friend_request = get_object_or_404(FriendRequest, id=request_id)
-    # Ensure the current user is the recipient
+    friend_request = get_object_or_404(FriendRequest, id=request_id)# Ensure the current user is the recipient
     if friend_request.to_user == request.user:
         friend_request.delete()  # Simply delete the request.
     return redirect('friend_page')
