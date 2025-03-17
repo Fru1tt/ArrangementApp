@@ -19,5 +19,5 @@ urlpatterns = [
     path('decline-friend-request/<int:request_id>/', views.decline_friend_request, name='decline_friend_request'),
 
     path('attendance/update/', views.update_attendance, name='update_attendance'),
-
+    path('manage-account/', views.manage_account, name='manage_account'),
 ]
