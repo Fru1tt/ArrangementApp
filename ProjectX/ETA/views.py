@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.http import HttpResponseForbidden  
-from .models import Event, FriendRequest, Profile, Attendance  
+from .models import Event, FriendRequest, Profile, Attendance, EventInvite  
 from .forms import EventForm, ProfileUpdateForm
 from django.contrib.auth import get_user_model
 
@@ -71,8 +71,12 @@ def logout_view(request):
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     attendance = Attendance.objects.filter(user=request.user, event=event).first()
-    context = {'event': event, 'attendance': attendance}
+    current_friends = request.user.profile.friends.all()
+    invited_ids = list(EventInvite.objects.filter(event=event, from_user=request.user).values_list('to_user', flat=True)
+    )
+    context = {'event': event, 'attendance': attendance,'current_friends': current_friends, 'invited_ids': invited_ids,}
     return render(request, 'ETA/event_detail.html', context)
+   
 
 @login_required
 def event_edit(request, event_id):
@@ -188,3 +192,32 @@ def manage_account(request):
     
     return render(request, 'ETA/manage_account.html', {'profile_form': profile_form})
 
+#-----------------------------Event invite----------------------#
+@login_required
+def send_event_invite(request, event_id, profile_id):
+    # Retrieve the event and the friend user object
+    event = get_object_or_404(Event, id=event_id)
+    friend_profile = get_object_or_404(request.user.profile.friends.all(), id=profile_id)
+
+    # Check if the user is allowed to invite:
+    # - If the event is public, anyone can invite
+    # - If the event is private, only the host can invite
+    if not event.is_public and request.user != event.host:
+        # Optionally show a message or redirect
+        return redirect('event_detail', event_id=event.id)
+
+    # Create or retrieve an existing invite
+    invite, created = EventInvite.objects.get_or_create(
+        event=event,
+        from_user=request.user,
+        to_user=friend_profile.user,
+        defaults={'status': 'pending'}
+    )
+
+    # If we got an existing invite, you could update status to 'pending' again or do nothing
+    if not created:
+        invite.status = 'pending'
+        invite.save()
+
+    # Redirect back to the event detail page (or wherever you want)
+    return redirect('event_detail', event_id=event.id)
