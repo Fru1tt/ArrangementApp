@@ -64,3 +64,24 @@ class Attendance(models.Model):
 
     class Meta:
         unique_together = ('user', 'event')
+
+
+#-----------------------------------Event invite----------------------------#
+class EventInvite(models.Model):
+    event = models.ForeignKey('Event', on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    from_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='event_invite_sent')
+    to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='event_invite_received')
+    
+    INVITE_STATUS_CHOICES = (
+        ('accepted', 'Accepted'),
+        ('pending', 'Pending'),
+        ('declined', 'Declined'),
+    )
+    status = models.CharField(max_length=15, choices=INVITE_STATUS_CHOICES, default='pending')
+    
+    class Meta:
+        unique_together = ('event', 'from_user', 'to_user')
+    
+    def __str__(self):
+        return f"Invite from {self.from_user} to {self.to_user} for event {self.event.title}"
