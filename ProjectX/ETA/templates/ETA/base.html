@@ -51,6 +51,14 @@
                 {% endif %}
             </ul>
         </div>
+
+        {% if request.user.is_authenticated %}
+  <div class="navbar-user-info">
+    <img src="{{ request.user.profile.image.url }}" alt="Profile Picture" style="height: 30px; width: 30px; border-radius: 50%;">
+    
+  </div>
+{% endif %}
+
     </nav>
     {% endblock navbar %}
 

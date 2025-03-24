@@ -32,3 +32,8 @@ class PasswordChangeForm(forms.Form):
     new_password1 = forms.CharField(widget=forms.PasswordInput, label="New Password")
     new_password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm New Password")
 
+# forms.py
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image', 'bio']
