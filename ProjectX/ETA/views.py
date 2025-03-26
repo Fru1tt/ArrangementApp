@@ -223,7 +223,7 @@ def send_event_invite(request, event_id, profile_id):
         invite.status = 'pending'
         invite.save()
 
-    # 🔔 Notification for private event invite
+    # 🔔 Always notify if it's a private event, even if invite already exists
     if not event.is_public:
         Notification.objects.create(
             user=friend_profile.user,
@@ -232,6 +232,7 @@ def send_event_invite(request, event_id, profile_id):
         )
 
     return redirect('event_detail', event_id=event.id)
+
 
 
 @login_required
