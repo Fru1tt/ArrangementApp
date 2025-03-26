@@ -27,7 +27,7 @@
           {% if event.image %}
             <img src="{{ event.image.url }}" class="event-image" alt="{{ event.title }}">
           {% else %}
-            <img src="https://via.placeholder.com/600x600?text=No+Image" class="event-image" alt="No image">
+            <img src="{% static 'images/static-event.png'%}" class="event-image" alt="No image">
           {% endif %}
           <h5 class="event-title-overlay">{{ event.title }}</h5>
         </div>        
