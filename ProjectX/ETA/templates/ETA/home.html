@@ -39,7 +39,9 @@
           </div>
         </div>
         <div class="card-footer">
-            {% if attendance %}
+          {% if event.host == request.user %}
+          <span class="badge badge-primary">Host</span>
+          {% elif attendance %}
             {% if attendance.status == "going" %}
               <span class="badge badge-success">Going</span>
             {% elif attendance.status == "can go" %}
@@ -49,6 +51,12 @@
             {% endif %}
           {% else %}
             <span class="badge badge-secondary">No Response</span>
+          {% endif %}
+
+          {% if event.is_public %}
+            <span class="badge badge-success">Public</span>
+          {% else %}
+            <span class="badge badge-secondary">Private</span>
           {% endif %}
           
         </div>
