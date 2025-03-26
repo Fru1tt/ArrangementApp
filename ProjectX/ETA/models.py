@@ -25,7 +25,6 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # Self-referential ManyToManyField for friend relationships.
     friends = models.ManyToManyField("self", blank=True, symmetrical=True)
-    # You can add additional fields like a bio or profile picture:
     bio = models.TextField(blank=True)
     image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
 
@@ -87,6 +86,8 @@ class EventInvite(models.Model):
     def __str__(self):
         return f"Invite from {self.from_user} to {self.to_user} for event {self.event.title}"
 
+
+#-----------------------------------Notifications----------------------------#
 class Notification(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
     message = models.CharField(max_length=255)
