@@ -23,7 +23,8 @@ def event_list(request):
         context = {'events_with_attendance': events_with_attendance}
     else:
         context = {'events': events}
-    return render(request, 'ETA/event_list.html', context)
+    return render(request, 'ETA/home.html', context)
+
 
 def register(request):
     if request.method == 'POST':
@@ -112,24 +113,19 @@ def event_edit(request, event_id):
     return render(request, 'ETA/event_edit.html', {'form': form, 'event': event})
 
 #-----------------------------Friend Search----------------------#
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-@login_required
 def friend_page(request):
+    if not request.user.is_authenticated:
+         messages.warning(request, "You have to log in to use this feature.")
+         return redirect('login')
+
     query = request.GET.get('q', '')
     results = []
     if query:
-        # Filter users by username (case-insensitive), excluding the current user.
         results = User.objects.filter(username__icontains=query).exclude(id=request.user.id)
-    
-    # Get incoming friend requests for the current user.
+
     friend_requests = request.user.friend_requests_received.all()
-    
-    # Get current friends from the user's profile.
     current_friends = request.user.profile.friends.all()
-    
+
     context = {
         'query': query,
         'results': results,
@@ -137,6 +133,7 @@ def friend_page(request):
         'current_friends': current_friends,
     }
     return render(request, 'ETA/friend_page.html', context)
+
 
 #-----------------------------Friend request----------------------#
 from .models import FriendRequest

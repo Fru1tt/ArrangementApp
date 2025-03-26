@@ -50,9 +50,9 @@
       {% elif attendance %}
         {% if attendance.status == "going" %}
              <span class="badge badge-success">Going</span>
-        {% elif attendance.status == "can_go" %}
+        {% elif attendance.status == "can go" %}
              <span class="badge badge-warning">Can Go</span>
-        {% elif attendance.status == "not_going" %}
+        {% elif attendance.status == "not going" %}
              <span class="badge badge-danger">Not Going</span>
         {% endif %}
       {% else %}
@@ -71,13 +71,13 @@
       <form method="post" action="{% url 'update_attendance' %}" style="display:inline;">
           {% csrf_token %}
           <input type="hidden" name="event_id" value="{{ event.id }}">
-          <input type="hidden" name="status" value="can_go">
+          <input type="hidden" name="status" value="can go">
           <button type="submit" class="btn btn-warning">Can Go</button>
       </form>
       <form method="post" action="{% url 'update_attendance' %}" style="display:inline;">
           {% csrf_token %}
           <input type="hidden" name="event_id" value="{{ event.id }}">
-          <input type="hidden" name="status" value="not_going">
+          <input type="hidden" name="status" value="not going">
           <button type="submit" class="btn btn-danger">Not Going</button>
       </form>
 
