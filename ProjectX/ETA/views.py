@@ -53,13 +53,10 @@ def create_event(request):
                         message="Available event for you",
                         link=f"/event/{event.id}/"
                     )
-
             return redirect('my_events')
     else:
         form = EventForm()
-    
     return render(request, 'ETA/create_event.html', {'form': form})
-
 
 
 
