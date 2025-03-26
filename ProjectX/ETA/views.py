@@ -8,7 +8,7 @@ from .models import Event, FriendRequest, Profile, Attendance, EventInvite
 from .forms import EventForm, ProfileUpdateForm
 from django.contrib.auth import get_user_model
 from .models import Notification
-
+from django.shortcuts import redirect
 User = get_user_model()
 
 
@@ -241,3 +241,11 @@ def send_event_invite(request, event_id, profile_id):
 def mark_all_notifications_read(request):
     request.user.notifications.filter(is_read=False).update(is_read=True)
     return redirect('event_list')
+
+
+@login_required
+def view_notification(request, notif_id):
+    notif = get_object_or_404(Notification, id=notif_id, user=request.user)
+    notif.is_read = True
+    notif.save()
+    return redirect(notif.link or 'event_list')  # fallback in case link is blank
