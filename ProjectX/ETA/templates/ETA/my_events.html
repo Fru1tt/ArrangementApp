@@ -1,50 +1,24 @@
 {% extends "ETA/base.html" %}
+{% load static %}
 
-{% block title %}My Events{% endblock title %}
+{% block title %}My Events | uGoing{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">My Upcoming Events</h1>
-<a href="{% url 'create_event' %}" class="btn btn-success mb-3">Create Event</a>
+<!-- Load CSS for the event card style -->
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<a href="{% url 'create_event' %}" class="btn btn-primary mb-2">Create Event</a>
+
+<h2 class="mb-4">My Upcoming Events</h2>
 <div class="row">
-    {% for item in events_with_attendance %}
-        {% with event=item.event attendance=item.attendance %}
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ event.title }}</h5>
-                        <p class="card-text">{{ event.description }}</p>
-                        {% if event.start_date|date:"Y-m-d" == event.end_date|date:"Y-m-d" %}
-                          <p class="text-muted">
-                            Time: {{ event.start_date|date:"d M" }} {{ event.start_date|date:"H:i" }} - {{ event.end_date|date:"H:i" }}
-                          </p>
-                        {% else %}
-                          <p class="text-muted">
-                            Time: {{ event.start_date|date:"d M H:i" }} - {{ event.end_date|date:"d M H:i" }}
-                          </p>
-                        {% endif %}
-                        <a href="{% url 'event_detail' event.id %}" class="btn btn-primary">View Details</a>
-
-                        {% if event.host == request.user %}
-                        <span class="badge badge-primary">Host</span>
-                        {% elif attendance %}
-                        <span class="badge badge-info">{{ attendance.status|capfirst }}</span>
-                        {% else %}
-                       <span class="badge badge-secondary">No Response</span>
-                        {% endif %}
-
-                        {% if event.is_public %}
-                            <span class="badge badge-success">Public</span>
-                        {% else %}
-                            <span class="badge badge-secondary">Private</span>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        {% endwith %}
-    {% empty %}
-        <div class="col-12">
-            <p class="text-muted">You have no events scheduled.</p>
-        </div>
-    {% endfor %}
+  {% for item in events_with_attendance %}
+    {% with event=item.event attendance=item.attendance %}
+      {% include "ETA/partials/event_card.html" %}
+    {% endwith %}
+  {% empty %}
+    <div class="col-12">
+      <p class="text-muted">You have no events scheduled.</p>
+    </div>
+  {% endfor %}
 </div>
-{% endblock content %}
+{% endblock %}

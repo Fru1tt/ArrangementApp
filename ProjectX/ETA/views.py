@@ -7,7 +7,8 @@ from django.http import HttpResponseForbidden
 from .models import Event, FriendRequest, Profile, Attendance, EventInvite  
 from .forms import EventForm, ProfileUpdateForm
 from django.contrib.auth import get_user_model
-
+from .models import Notification
+from django.shortcuts import redirect
 User = get_user_model()
 
 
@@ -22,7 +23,8 @@ def event_list(request):
         context = {'events_with_attendance': events_with_attendance}
     else:
         context = {'events': events}
-    return render(request, 'ETA/event_list.html', context)
+    return render(request, 'ETA/home.html', context)
+
 
 def register(request):
     if request.method == 'POST':
@@ -41,12 +43,22 @@ def create_event(request):
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             event = form.save(commit=False)
-            event.host = request.user  # Assign the logged-in user as the host
+            event.host = request.user
             event.save()
-            return redirect('my_events')  # redirect to My Events page after creation
+
+            if event.is_public:
+                for friend in request.user.profile.friends.all():
+                    Notification.objects.create(
+                        user=friend.user,
+                        message="Available event for you",
+                        link=f"/event/{event.id}/"
+                    )
+            return redirect('my_events')
     else:
         form = EventForm()
     return render(request, 'ETA/create_event.html', {'form': form})
+
+
 
 def my_events(request):
     if not request.user.is_authenticated:
@@ -98,24 +110,19 @@ def event_edit(request, event_id):
     return render(request, 'ETA/event_edit.html', {'form': form, 'event': event})
 
 #-----------------------------Friend Search----------------------#
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-@login_required
 def friend_page(request):
+    if not request.user.is_authenticated:
+         messages.warning(request, "You have to log in to use this feature.")
+         return redirect('login')
+
     query = request.GET.get('q', '')
     results = []
     if query:
-        # Filter users by username (case-insensitive), excluding the current user.
         results = User.objects.filter(username__icontains=query).exclude(id=request.user.id)
-    
-    # Get incoming friend requests for the current user.
+
     friend_requests = request.user.friend_requests_received.all()
-    
-    # Get current friends from the user's profile.
     current_friends = request.user.profile.friends.all()
-    
+
     context = {
         'query': query,
         'results': results,
@@ -123,6 +130,7 @@ def friend_page(request):
         'current_friends': current_friends,
     }
     return render(request, 'ETA/friend_page.html', context)
+
 
 #-----------------------------Friend request----------------------#
 from .models import FriendRequest
@@ -195,18 +203,12 @@ def manage_account(request):
 #-----------------------------Event invite----------------------#
 @login_required
 def send_event_invite(request, event_id, profile_id):
-    # Retrieve the event and the friend user object
     event = get_object_or_404(Event, id=event_id)
     friend_profile = get_object_or_404(request.user.profile.friends.all(), id=profile_id)
 
-    # Check if the user is allowed to invite:
-    # - If the event is public, anyone can invite
-    # - If the event is private, only the host can invite
     if not event.is_public and request.user != event.host:
-        # Optionally show a message or redirect
         return redirect('event_detail', event_id=event.id)
 
-    # Create or retrieve an existing invite
     invite, created = EventInvite.objects.get_or_create(
         event=event,
         from_user=request.user,
@@ -214,10 +216,31 @@ def send_event_invite(request, event_id, profile_id):
         defaults={'status': 'pending'}
     )
 
-    # If we got an existing invite, you could update status to 'pending' again or do nothing
     if not created:
         invite.status = 'pending'
         invite.save()
 
-    # Redirect back to the event detail page (or wherever you want)
+    # 🔔 Always notify if it's a private event, even if invite already exists
+    if not event.is_public:
+        Notification.objects.create(
+            user=friend_profile.user,
+            message="You have been invited",
+            link=f"/event/{event.id}/"
+        )
+
     return redirect('event_detail', event_id=event.id)
+
+
+
+@login_required
+def mark_all_notifications_read(request):
+    request.user.notifications.filter(is_read=False).update(is_read=True)
+    return redirect('event_list')
+
+
+@login_required
+def view_notification(request, notif_id):
+    notif = get_object_or_404(Notification, id=notif_id, user=request.user)
+    notif.is_read = True
+    notif.save()
+    return redirect(notif.link or 'event_list')  # fallback in case link is blank
