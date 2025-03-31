@@ -201,7 +201,18 @@ def decline_friend_request(request, request_id):
 
 
 #-----------------------------Attendance----------------------#
+@require_POST
+@login_required
+def update_attendance(request):
+    event_id = request.POST.get("event_id")
+    status = request.POST.get("status")
+    event = get_object_or_404(Event, id=event_id)
 
+    attendance, created = Attendance.objects.get_or_create(user=request.user, event=event)
+    attendance.status = status
+    attendance.save()
+
+    return redirect('event_detail', event_id=event.id)
  #-----------------------------Manage account----------------------#
 @login_required
 def manage_account(request):
@@ -266,15 +277,3 @@ def view_notification(request, notif_id):
     notif.save()
     return redirect(notif.link or 'event_list')  # fallback in case link is blank
 
-@require_POST
-@login_required
-def update_attendance(request):
-    event_id = request.POST.get("event_id")
-    status = request.POST.get("status")
-    event = get_object_or_404(Event, id=event_id)
-
-    attendance, created = Attendance.objects.get_or_create(user=request.user, event=event)
-    attendance.status = status
-    attendance.save()
-
-    return redirect('event_detail', event_id=event.id)
