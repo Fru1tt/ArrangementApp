@@ -15,16 +15,24 @@ User = get_user_model()
 
 
 def event_list(request):
+    # Get all public events ordered by start date.
     events = Event.objects.filter(is_public=True).order_by('start_date')
+    
     if request.user.is_authenticated:
-        events_with_attendance = []
-        for event in events:
-            # Get the attendance record for this event and user (or None if it doesn't exist)
-            attendance = Attendance.objects.filter(user=request.user, event=event).first()
-            events_with_attendance.append({'event': event, 'attendance': attendance})
-        context = {'events_with_attendance': events_with_attendance}
+        # Exclude events where the user is the host.
+        public_events = events.exclude(host=request.user)
+        events_data = [
+            {
+                'event': event,
+                'attendance': Attendance.objects.filter(user=request.user, event=event).first()
+            }
+            for event in public_events
+        ]
     else:
-        context = {'events': events}
+        # For anonymous users, wrap each event in a dictionary with no attendance.
+        events_data = [{'event': event, 'attendance': None} for event in events]
+    
+    context = {'events_data': events_data}
     return render(request, 'ETA/home.html', context)
 
 
@@ -64,14 +72,19 @@ def create_event(request):
 
 def my_events(request):
     if not request.user.is_authenticated:
-         messages.warning(request, "You have to log in to use this feature.")
-         return redirect('login')
-    events = Event.objects.filter(host=request.user).order_by('start_date')
-    events_with_attendance = []
-    for event in events:
-         attendance = Attendance.objects.filter(user=request.user, event=event).first()
-         events_with_attendance.append({'event': event, 'attendance': attendance})
-    context = {'events_with_attendance': events_with_attendance}
+        messages.warning(request, "You have to log in to use this feature.")
+        return redirect('login')
+    # Retrieve events where the current user is the host.
+    hosted_events = Event.objects.filter(host=request.user).order_by('start_date')
+    # Build a list of dictionaries for each hosted event, including the user's attendance record.
+    hosted_events_data = [
+        {
+            'event': event,
+            'attendance': Attendance.objects.filter(user=request.user, event=event).first()
+        }
+        for event in hosted_events
+    ]
+    context = {'hosted_events_data': hosted_events_data}
     return render(request, 'ETA/my_events.html', context)
 
 @login_required

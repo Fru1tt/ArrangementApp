@@ -1,7 +1,7 @@
 {% extends "ETA/base.html" %}
 {% load static %}
 
-{% block title %}My Events | uGoing{% endblock %}
+{% block title %}My Events | uGoing{% endblock title %}
 
 {% block content %}
 <!-- Load CSS for the event card style -->
@@ -11,7 +11,7 @@
 
 <h2 class="mb-4">My Upcoming Events</h2>
 <div class="row">
-  {% for item in events_with_attendance %}
+  {% for item in hosted_events_data %}
     {% with event=item.event attendance=item.attendance %}
       {% include "ETA/partials/event_card.html" %}
     {% endwith %}

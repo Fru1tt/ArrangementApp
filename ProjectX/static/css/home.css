@@ -22,7 +22,7 @@
   margin: 0;
 }
 
-/* Reduce default padding inside card sections */
+/* padding inside card sections */
 .card-body {
   padding: 0.75rem;
 }
@@ -31,7 +31,7 @@
   padding: 0.3rem;
 }
 
-/* Tighter margins on text elements */
+/* margins on text elements */
 .card-body h5,
 .card-body p {
   margin-bottom: 0.5rem;
