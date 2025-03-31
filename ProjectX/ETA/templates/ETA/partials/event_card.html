@@ -50,7 +50,12 @@
         {% else %}
           <span class="badge badge-secondary">Private</span>
         {% endif %}
+
+        {% if event.host %}
+            <small class="text-muted float-right">Host: {{ event.host.username }}</small>
+          {% endif %}
       </div>
+      
     </div>
   </div>
   
