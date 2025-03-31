@@ -95,18 +95,22 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
+
 def event_detail(request, event_id):
+    if not request.user.is_authenticated:
+        messages.warning(request, "You have to log in to use this feature.")
+        return redirect('login')
     event = get_object_or_404(Event, id=event_id)
     attendance = Attendance.objects.filter(user=request.user, event=event).first()
     current_friends = request.user.profile.friends.all()
 
-    # ✅ CLOSE the list() call properly
     invited_ids = list(
         EventInvite.objects.filter(event=event, from_user=request.user)
         .values_list('to_user', flat=True)
     )
 
     friends_going = []
+    inviteable_friends = []
     for friend in current_friends:
         friend_attendance = Attendance.objects.filter(
             user=friend.user,
@@ -115,17 +119,18 @@ def event_detail(request, event_id):
         ).first()
         if friend_attendance:
             friends_going.append(friend)
+        else:
+            inviteable_friends.append(friend)
 
     context = {
         'event': event,
         'attendance': attendance,
-        'current_friends': current_friends,
         'invited_ids': invited_ids,
-        'friends_going': friends_going,  # ✅ Add to context!
+        'friends_going': friends_going,
+        'inviteable_friends': inviteable_friends,
     }
 
     return render(request, 'ETA/event_detail.html', context)
-
    
 
 @login_required
@@ -213,6 +218,7 @@ def update_attendance(request):
     attendance.save()
 
     return redirect('event_detail', event_id=event.id)
+
  #-----------------------------Manage account----------------------#
 @login_required
 def manage_account(request):
@@ -252,7 +258,7 @@ def send_event_invite(request, event_id, profile_id):
         invite.status = 'pending'
         invite.save()
 
-    # 🔔 Always notify if it's a private event, even if invite already exists
+    # Always notify if it's a private event, even if invite already exists
     if not event.is_public:
         Notification.objects.create(
             user=friend_profile.user,
