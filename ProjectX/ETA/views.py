@@ -78,7 +78,7 @@ def profile(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('event_list')
+    return redirect('home')
 
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
