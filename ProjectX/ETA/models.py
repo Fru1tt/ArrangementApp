@@ -64,6 +64,10 @@ class Attendance(models.Model):
 
     class Meta:
         unique_together = ('user', 'event')
+    
+    def __str__(self):
+        # Display something meaningful, e.g., "carlgrude1 -> Sluttsfjell (Going)"
+        return f"{self.user.username} -> {self.event.title} ({self.status})"
 
 
 #-----------------------------------Event invite----------------------------#
