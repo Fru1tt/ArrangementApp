@@ -118,14 +118,14 @@
                   <img src="{{ friend.image.url }}" alt="{{ friend.user.username }}'s picture"
                        class="rounded-circle mr-2" style="width:40px; height:40px;">
                 {% else %}
-                  <img src="https://via.placeholder.com/40" alt="Default" class="rounded-circle mr-2">
+                  <img src="{% static 'images/NPC.png'%}" alt="Default" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
                 {% endif %}
                 {{ friend.user.username }}
               </div>
               {% if friend.user.id in invited_ids %}
                 <span class="text-muted">Invited</span>
               {% else %}
-                <form method="post" action="{% url 'send_event_invite' event.id friend.id %}" style="display:inline;">
+                <form method="post" action="{% url 'send_event_invite' event.id friend.id %}" >
                   {% csrf_token %}
                   <button type="submit" class="btn btn-primary btn-sm">Invite</button>
                 </form>
