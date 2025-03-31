@@ -9,6 +9,8 @@ from .forms import EventForm, ProfileUpdateForm
 from django.contrib.auth import get_user_model
 from .models import Notification
 from django.shortcuts import redirect
+from django.views.decorators.http import require_POST
+
 User = get_user_model()
 
 
@@ -97,10 +99,33 @@ def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     attendance = Attendance.objects.filter(user=request.user, event=event).first()
     current_friends = request.user.profile.friends.all()
-    invited_ids = list(EventInvite.objects.filter(event=event, from_user=request.user).values_list('to_user', flat=True)
+
+    # ✅ CLOSE the list() call properly
+    invited_ids = list(
+        EventInvite.objects.filter(event=event, from_user=request.user)
+        .values_list('to_user', flat=True)
     )
-    context = {'event': event, 'attendance': attendance,'current_friends': current_friends, 'invited_ids': invited_ids,}
+
+    friends_going = []
+    for friend in current_friends:
+        friend_attendance = Attendance.objects.filter(
+            user=friend.user,
+            event=event,
+            status='going'
+        ).first()
+        if friend_attendance:
+            friends_going.append(friend)
+
+    context = {
+        'event': event,
+        'attendance': attendance,
+        'current_friends': current_friends,
+        'invited_ids': invited_ids,
+        'friends_going': friends_going,  # ✅ Add to context!
+    }
+
     return render(request, 'ETA/event_detail.html', context)
+
    
 
 @login_required
@@ -176,23 +201,6 @@ def decline_friend_request(request, request_id):
 
 
 #-----------------------------Attendance----------------------#
-@login_required
-def update_attendance(request):
-    if request.method == 'POST':
-        event_id = request.POST.get('event_id')
-        new_status = request.POST.get('status')
-        
-        # Validate new_status if desired
-        
-        event = get_object_or_404(Event, id=event_id)
-        attendance, created = Attendance.objects.get_or_create(user=request.user, event=event)
-        attendance.status = new_status
-        attendance.save()
-        
-        return redirect('event_detail', event_id=event.id)
-    
-    # If it's not a POST request, redirect or show an error
-    return redirect('home')
 
  #-----------------------------Manage account----------------------#
 @login_required
@@ -257,3 +265,16 @@ def view_notification(request, notif_id):
     notif.is_read = True
     notif.save()
     return redirect(notif.link or 'event_list')  # fallback in case link is blank
+
+@require_POST
+@login_required
+def update_attendance(request):
+    event_id = request.POST.get("event_id")
+    status = request.POST.get("status")
+    event = get_object_or_404(Event, id=event_id)
+
+    attendance, created = Attendance.objects.get_or_create(user=request.user, event=event)
+    attendance.status = status
+    attendance.save()
+
+    return redirect('event_detail', event_id=event.id)
