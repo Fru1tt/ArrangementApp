@@ -112,6 +112,8 @@ def event_detail(request, event_id):
     friends_going = []
     inviteable_friends = []
     for friend in current_friends:
+        if friend.user == request.user:
+            continue
         friend_attendance = Attendance.objects.filter(
             user=friend.user,
             event=event,
