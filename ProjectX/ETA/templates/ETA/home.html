@@ -14,12 +14,13 @@
     <a href="{% url 'register' %}" class="btn btn-primary btn-lg mt-3">Join Now to Create Events</a>
   {% endif %}
 </div>
+
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 
 <!-- Upcoming Events Section -->
 <h2 class="mb-4">Upcoming Events</h2>
 <div class="row">
-  {% for item in events_with_attendance %}
+  {% for item in events_data %}
     {% with event=item.event attendance=item.attendance %}
       {% include "ETA/partials/event_card.html" %}
     {% endwith %}
