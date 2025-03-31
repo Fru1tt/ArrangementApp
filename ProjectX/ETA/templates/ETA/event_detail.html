@@ -106,6 +106,26 @@
   <div class="col-md-4 mb-4">
     <!-- Example card for Inviting Friends -->
     {% if event.is_public or request.user == event.host %}
+    {% if friends_going %}
+  <div class="card mb-3">
+    <div class="card-header">Friends Going</div>
+    <ul class="list-group list-group-flush">
+      {% for friend in friends_going %}
+        <li class="list-group-item d-flex align-items-center">
+          {% if friend.image %}
+            <img src="{{ friend.image.url }}" alt="{{ friend.user.username }}" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
+          {% else %}
+            <img src="{% static 'images/NPC.png' %}" alt="Default" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
+          {% endif %}
+          {{ friend.user.username }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% else %}
+  <p>No friends have joined yet.</p>
+{% endif %}
+
     <div class="card">
       <div class="card-header">Invite Friends</div>
       <div class="card-body" style="max-height: 300px; overflow-y: auto;">

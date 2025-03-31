@@ -27,7 +27,7 @@
                                 {% if user.profile.image %}
                                     <img src="{{ user.profile.image.url }}" alt="{{ user.username }}'s picture" class="rounded-circle mr-2" style="width:40px; height:40px;">
                                 {% else %}
-                                    <img src="https://via.placeholder.com/40" alt="Default" class="rounded-circle mr-2">
+                                    <img src="{% static 'images/NPC.png' %}" alt="Default" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
                                 {% endif %}
                                 {{ user.username }}
                             </div>
