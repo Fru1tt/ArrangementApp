@@ -69,23 +69,42 @@ def create_event(request):
     return render(request, 'ETA/create_event.html', {'form': form})
 
 
-
+#----------------------------My Events view filter logic----------------------#
 def my_events(request):
     if not request.user.is_authenticated:
         messages.warning(request, "You have to log in to use this feature.")
         return redirect('login')
-    # Retrieve events where the current user is the host.
-    hosted_events = Event.objects.filter(host=request.user).order_by('start_date')
-    # Build a list of dictionaries for each hosted event, including the user's attendance record.
-    hosted_events_data = [
-        {
-            'event': event,
-            'attendance': Attendance.objects.filter(user=request.user, event=event).first()
-        }
-        for event in hosted_events
-    ]
-    context = {'hosted_events_data': hosted_events_data}
+    # Hosted events
+    hosted_events = Event.objects.filter(host=request.user)
+    hosted_events_data = [{'event': event, 'attendance': None} for event in hosted_events]
+
+    # Attending events (excluding those hosted by the user)
+    attending_attendances = Attendance.objects.filter(
+        user=request.user,
+        status__in=['going', 'can_go']
+    ).exclude(event__host=request.user)
+    attending_events_data = [{'event': att.event, 'attendance': att} for att in attending_attendances]
+
+    # Pending invites: Get pending invites for the user,
+    # then exclude events where the user is the host or already has an attendance record.
+    pending_invites = EventInvite.objects.filter(
+        to_user=request.user,
+        status='pending'
+    ).exclude(event__host=request.user)
+    
+    # Exclude events for which an Attendance record exists for this user
+    attended_event_ids = Attendance.objects.filter(user=request.user).values_list('event', flat=True)
+    pending_invites = pending_invites.exclude(event__in=attended_event_ids)
+    
+    pending_invite_events_data = [{'event': invite.event, 'invite': invite} for invite in pending_invites]
+
+    context = {
+        'hosted_events_data': hosted_events_data,
+        'attending_events_data': attending_events_data,
+        'pending_invite_events_data': pending_invite_events_data,
+    }
     return render(request, 'ETA/my_events.html', context)
+
 
 @login_required
 def profile(request):
@@ -203,7 +222,7 @@ def decline_friend_request(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
     # Ensure the current user is the recipient
     if friend_request.to_user == request.user:
-        friend_request.delete()  # Simply delete the request.
+        friend_request.delete()
     return redirect('friend_page')
 
 
