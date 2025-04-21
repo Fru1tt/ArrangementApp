@@ -1,0 +1,2338 @@
+[
+  {
+    "model": "ETA.event",
+    "pk": 100,
+    "fields": {
+      "title": "Summer Music Festival",
+      "description": "Join us for a night of live bands under the stars at the annual Summer Music Festival.",
+      "start_date": "2025-04-28T18:00:00Z",
+      "end_date": "2025-04-28T23:00:00Z",
+      "is_public": true,
+      "created_at": "2025-04-28T18:00:00Z",
+      "host": 2,
+      "image": "event_photos/GPT1.png"
+    }
+  },
+  {
+    "model": "ETA.event",
+    "pk": 101,
+    "fields": {
+      "title": "Sunset Beach Gala",
+      "description": "A beachfront gala with dinner, cocktails, and dancing at golden hour.",
+      "start_date": "2025-05-01T17:00:00Z",
+      "end_date": "2025-05-01T21:00:00Z",
+      "is_public": true,
+      "created_at": "2025-05-01T17:00:00Z",
+      "host": 2,
+      "image": "event_photos/gpt2.jpg"
+    }
+  },
+  {
+    "model": "ETA.event",
+    "pk": 102,
+    "fields": {
+      "title": "Color Run Carnival",
+      "description": "A fun run through clouds of color followed by carnival games and food trucks.",
+      "start_date": "2025-05-05T09:00:00Z",
+      "end_date": "2025-05-05T13:00:00Z",
+      "is_public": true,
+      "created_at": "2025-05-05T09:00:00Z",
+      "host": 6,
+      "image": "event_photos/gpt3.jpg"
+    }
+  },
+  {
+    "model": "ETA.event",
+    "pk": 103,
+    "fields": {
+      "title": "Open-Air Concert",
+      "description": "Catch your favorite local acts performing live in the historic town square.",
+      "start_date": "2025-04-26T16:00:00Z",
+      "end_date": "2025-04-26T20:00:00Z",
+      "is_public": true,
+      "created_at": "2025-04-26T16:00:00Z",
+      "host": 2,
+      "image": "event_photos/gpt4.jpg"
+    }
+  },
+  {
+    "model": "ETA.event",
+    "pk": 104,
+    "fields": {
+      "title": "Stadium Pop-Up Show",
+      "description": "Exclusive pop-up performance at the old stadium\u2014limited tickets!",
+      "start_date": "2025-05-03T19:00:00Z",
+      "end_date": "2025-05-03T22:00:00Z",
+      "is_public": true,
+      "created_at": "2025-05-03T19:00:00Z",
+      "host": 2,
+      "image": "event_photos/gpt5.webp"
+    }
+  },
+  {
+    "model": "ETA.event",
+    "pk": 105,
+    "fields": {
+      "title": "Gourmet Buffet Affair",
+      "description": "An exquisite spread of international cuisines in a chic urban loft.",
+      "start_date": "2025-04-30T18:00:00Z",
+      "end_date": "2025-04-30T22:00:00Z",
+      "is_public": true,
+      "created_at": "2025-04-30T18:00:00Z",
+      "host": 2,
+      "image": "event_photos/gpt6.png"
+    }
+  },
+  {
+    "model": "ETA.event",
+    "pk": 106,
+    "fields": {
+      "title": "Neon Gel Blaster Battle",
+      "description": "High\u2011energy, glow\u2011in\u2011the\u2011dark gel\u2011blaster arena competition.",
+      "start_date": "2025-04-24T14:00:00Z",
+      "end_date": "2025-04-24T18:00:00Z",
+      "is_public": true,
+      "created_at": "2025-04-24T14:00:00Z",
+      "host": 5,
+      "image": "event_photos/gpt7.jpg"
+    }
+  },
+  {
+    "model": "ETA.event",
+    "pk": 107,
+    "fields": {
+      "title": "Sunset Volleyball Meetup",
+      "description": "Friendly beach volleyball games at dusk\u2014bring your own team or join one!",
+      "start_date": "2025-04-29T17:00:00Z",
+      "end_date": "2025-04-29T20:00:00Z",
+      "is_public": true,
+      "created_at": "2025-04-29T17:00:00Z",
+      "host": 6,
+      "image": "event_photos/gpt8.jpg"
+    }
+  },
+  {
+    "model": "ETA.event",
+    "pk": 108,
+    "fields": {
+      "title": "Main Event Bowling Night",
+      "description": "Strike! Family and friends bowling night at Main Event bowling alley.",
+      "start_date": "2025-05-02T18:00:00Z",
+      "end_date": "2025-05-02T21:00:00Z",
+      "is_public": true,
+      "created_at": "2025-05-02T18:00:00Z",
+      "host": 6,
+      "image": "event_photos/gpt9.webp"
+    }
+  },
+  {
+    "model": "ETA.event",
+    "pk": 109,
+    "fields": {
+      "title": "Lantern Festival Gala",
+      "description": "An evening of floating lanterns and live performances in the palace courtyard.",
+      "start_date": "2025-05-06T19:00:00Z",
+      "end_date": "2025-05-06T23:00:00Z",
+      "is_public": true,
+      "created_at": "2025-05-06T19:00:00Z",
+      "host": 5,
+      "image": "event_photos/gpt10.jpeg"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20001,
+    "fields": {
+      "user": 20,
+      "event": 100,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20002,
+    "fields": {
+      "user": 29,
+      "event": 100,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20003,
+    "fields": {
+      "user": 13,
+      "event": 100,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20004,
+    "fields": {
+      "user": 14,
+      "event": 100,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20005,
+    "fields": {
+      "user": 11,
+      "event": 100,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20006,
+    "fields": {
+      "user": 25,
+      "event": 100,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20007,
+    "fields": {
+      "user": 23,
+      "event": 100,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20008,
+    "fields": {
+      "user": 30,
+      "event": 100,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20009,
+    "fields": {
+      "user": 32,
+      "event": 100,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20010,
+    "fields": {
+      "user": 106,
+      "event": 100,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20011,
+    "fields": {
+      "user": 151,
+      "event": 100,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20012,
+    "fields": {
+      "user": 84,
+      "event": 100,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20013,
+    "fields": {
+      "user": 31,
+      "event": 100,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20014,
+    "fields": {
+      "user": 136,
+      "event": 100,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20015,
+    "fields": {
+      "user": 26,
+      "event": 100,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20016,
+    "fields": {
+      "user": 53,
+      "event": 100,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20017,
+    "fields": {
+      "user": 114,
+      "event": 100,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20018,
+    "fields": {
+      "user": 137,
+      "event": 100,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20019,
+    "fields": {
+      "user": 41,
+      "event": 100,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20020,
+    "fields": {
+      "user": 10,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20021,
+    "fields": {
+      "user": 11,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20022,
+    "fields": {
+      "user": 12,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20023,
+    "fields": {
+      "user": 13,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20024,
+    "fields": {
+      "user": 14,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20025,
+    "fields": {
+      "user": 15,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20026,
+    "fields": {
+      "user": 16,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20027,
+    "fields": {
+      "user": 17,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20028,
+    "fields": {
+      "user": 18,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20029,
+    "fields": {
+      "user": 19,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20030,
+    "fields": {
+      "user": 20,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20031,
+    "fields": {
+      "user": 21,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20032,
+    "fields": {
+      "user": 22,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20033,
+    "fields": {
+      "user": 23,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20034,
+    "fields": {
+      "user": 24,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20035,
+    "fields": {
+      "user": 25,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20036,
+    "fields": {
+      "user": 26,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20037,
+    "fields": {
+      "user": 27,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20038,
+    "fields": {
+      "user": 28,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20039,
+    "fields": {
+      "user": 29,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20040,
+    "fields": {
+      "user": 30,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20041,
+    "fields": {
+      "user": 31,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20042,
+    "fields": {
+      "user": 32,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20043,
+    "fields": {
+      "user": 23,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20044,
+    "fields": {
+      "user": 15,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20045,
+    "fields": {
+      "user": 29,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20046,
+    "fields": {
+      "user": 32,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20047,
+    "fields": {
+      "user": 14,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20048,
+    "fields": {
+      "user": 10,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20049,
+    "fields": {
+      "user": 20,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20050,
+    "fields": {
+      "user": 11,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20051,
+    "fields": {
+      "user": 17,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20052,
+    "fields": {
+      "user": 31,
+      "event": 101,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20053,
+    "fields": {
+      "user": 103,
+      "event": 101,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20054,
+    "fields": {
+      "user": 132,
+      "event": 101,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20055,
+    "fields": {
+      "user": 32,
+      "event": 101,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20056,
+    "fields": {
+      "user": 143,
+      "event": 101,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20057,
+    "fields": {
+      "user": 48,
+      "event": 101,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20058,
+    "fields": {
+      "user": 11,
+      "event": 101,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20059,
+    "fields": {
+      "user": 64,
+      "event": 101,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20060,
+    "fields": {
+      "user": 134,
+      "event": 101,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20061,
+    "fields": {
+      "user": 68,
+      "event": 101,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20062,
+    "fields": {
+      "user": 121,
+      "event": 101,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20063,
+    "fields": {
+      "user": 58,
+      "event": 101,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20064,
+    "fields": {
+      "user": 98,
+      "event": 101,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20065,
+    "fields": {
+      "user": 14,
+      "event": 102,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20066,
+    "fields": {
+      "user": 23,
+      "event": 102,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20067,
+    "fields": {
+      "user": 30,
+      "event": 102,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20068,
+    "fields": {
+      "user": 22,
+      "event": 102,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20069,
+    "fields": {
+      "user": 25,
+      "event": 102,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20070,
+    "fields": {
+      "user": 32,
+      "event": 102,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20071,
+    "fields": {
+      "user": 96,
+      "event": 102,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20072,
+    "fields": {
+      "user": 17,
+      "event": 102,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20073,
+    "fields": {
+      "user": 56,
+      "event": 102,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20074,
+    "fields": {
+      "user": 144,
+      "event": 102,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20075,
+    "fields": {
+      "user": 138,
+      "event": 102,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20076,
+    "fields": {
+      "user": 33,
+      "event": 102,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20077,
+    "fields": {
+      "user": 30,
+      "event": 102,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20078,
+    "fields": {
+      "user": 66,
+      "event": 102,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20079,
+    "fields": {
+      "user": 81,
+      "event": 102,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20080,
+    "fields": {
+      "user": 75,
+      "event": 102,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20081,
+    "fields": {
+      "user": 31,
+      "event": 102,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20082,
+    "fields": {
+      "user": 83,
+      "event": 102,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20083,
+    "fields": {
+      "user": 27,
+      "event": 102,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20084,
+    "fields": {
+      "user": 32,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20085,
+    "fields": {
+      "user": 19,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20086,
+    "fields": {
+      "user": 25,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20087,
+    "fields": {
+      "user": 30,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20088,
+    "fields": {
+      "user": 13,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20089,
+    "fields": {
+      "user": 18,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20090,
+    "fields": {
+      "user": 17,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20091,
+    "fields": {
+      "user": 29,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20092,
+    "fields": {
+      "user": 22,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20093,
+    "fields": {
+      "user": 27,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20094,
+    "fields": {
+      "user": 26,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20095,
+    "fields": {
+      "user": 23,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20096,
+    "fields": {
+      "user": 15,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20097,
+    "fields": {
+      "user": 10,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20098,
+    "fields": {
+      "user": 12,
+      "event": 103,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20099,
+    "fields": {
+      "user": 100,
+      "event": 103,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20100,
+    "fields": {
+      "user": 30,
+      "event": 103,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20101,
+    "fields": {
+      "user": 53,
+      "event": 103,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20102,
+    "fields": {
+      "user": 83,
+      "event": 103,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20103,
+    "fields": {
+      "user": 42,
+      "event": 103,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20104,
+    "fields": {
+      "user": 137,
+      "event": 103,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20105,
+    "fields": {
+      "user": 136,
+      "event": 103,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20106,
+    "fields": {
+      "user": 99,
+      "event": 103,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20107,
+    "fields": {
+      "user": 46,
+      "event": 103,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20108,
+    "fields": {
+      "user": 11,
+      "event": 103,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20109,
+    "fields": {
+      "user": 23,
+      "event": 103,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20110,
+    "fields": {
+      "user": 108,
+      "event": 103,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20111,
+    "fields": {
+      "user": 114,
+      "event": 103,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20112,
+    "fields": {
+      "user": 94,
+      "event": 103,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20113,
+    "fields": {
+      "user": 88,
+      "event": 103,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20114,
+    "fields": {
+      "user": 128,
+      "event": 103,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20115,
+    "fields": {
+      "user": 18,
+      "event": 104,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20116,
+    "fields": {
+      "user": 27,
+      "event": 104,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20117,
+    "fields": {
+      "user": 29,
+      "event": 104,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20118,
+    "fields": {
+      "user": 23,
+      "event": 104,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20119,
+    "fields": {
+      "user": 12,
+      "event": 104,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20120,
+    "fields": {
+      "user": 10,
+      "event": 104,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20121,
+    "fields": {
+      "user": 19,
+      "event": 104,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20122,
+    "fields": {
+      "user": 25,
+      "event": 104,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20123,
+    "fields": {
+      "user": 20,
+      "event": 104,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20124,
+    "fields": {
+      "user": 118,
+      "event": 104,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20125,
+    "fields": {
+      "user": 89,
+      "event": 104,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20126,
+    "fields": {
+      "user": 65,
+      "event": 104,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20127,
+    "fields": {
+      "user": 14,
+      "event": 104,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20128,
+    "fields": {
+      "user": 68,
+      "event": 104,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20129,
+    "fields": {
+      "user": 66,
+      "event": 104,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20130,
+    "fields": {
+      "user": 126,
+      "event": 104,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20131,
+    "fields": {
+      "user": 125,
+      "event": 104,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20132,
+    "fields": {
+      "user": 144,
+      "event": 104,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20133,
+    "fields": {
+      "user": 57,
+      "event": 104,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20134,
+    "fields": {
+      "user": 89,
+      "event": 104,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20135,
+    "fields": {
+      "user": 114,
+      "event": 104,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20136,
+    "fields": {
+      "user": 30,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20137,
+    "fields": {
+      "user": 22,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20138,
+    "fields": {
+      "user": 16,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20139,
+    "fields": {
+      "user": 27,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20140,
+    "fields": {
+      "user": 28,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20141,
+    "fields": {
+      "user": 25,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20142,
+    "fields": {
+      "user": 32,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20143,
+    "fields": {
+      "user": 24,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20144,
+    "fields": {
+      "user": 14,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20145,
+    "fields": {
+      "user": 17,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20146,
+    "fields": {
+      "user": 19,
+      "event": 105,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20147,
+    "fields": {
+      "user": 76,
+      "event": 105,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20148,
+    "fields": {
+      "user": 35,
+      "event": 105,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20149,
+    "fields": {
+      "user": 102,
+      "event": 105,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20150,
+    "fields": {
+      "user": 128,
+      "event": 105,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20151,
+    "fields": {
+      "user": 150,
+      "event": 105,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20152,
+    "fields": {
+      "user": 21,
+      "event": 105,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20153,
+    "fields": {
+      "user": 122,
+      "event": 105,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20154,
+    "fields": {
+      "user": 45,
+      "event": 105,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20155,
+    "fields": {
+      "user": 155,
+      "event": 105,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20156,
+    "fields": {
+      "user": 133,
+      "event": 105,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20157,
+    "fields": {
+      "user": 41,
+      "event": 105,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20158,
+    "fields": {
+      "user": 147,
+      "event": 105,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20159,
+    "fields": {
+      "user": 122,
+      "event": 105,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20160,
+    "fields": {
+      "user": 80,
+      "event": 105,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20161,
+    "fields": {
+      "user": 10,
+      "event": 105,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20162,
+    "fields": {
+      "user": 139,
+      "event": 105,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20163,
+    "fields": {
+      "user": 29,
+      "event": 106,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20164,
+    "fields": {
+      "user": 31,
+      "event": 106,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20165,
+    "fields": {
+      "user": 20,
+      "event": 106,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20166,
+    "fields": {
+      "user": 27,
+      "event": 106,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20167,
+    "fields": {
+      "user": 30,
+      "event": 106,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20168,
+    "fields": {
+      "user": 98,
+      "event": 106,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20169,
+    "fields": {
+      "user": 93,
+      "event": 106,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20170,
+    "fields": {
+      "user": 149,
+      "event": 106,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20171,
+    "fields": {
+      "user": 114,
+      "event": 106,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20172,
+    "fields": {
+      "user": 16,
+      "event": 106,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20173,
+    "fields": {
+      "user": 48,
+      "event": 106,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20174,
+    "fields": {
+      "user": 125,
+      "event": 106,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20175,
+    "fields": {
+      "user": 99,
+      "event": 106,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20176,
+    "fields": {
+      "user": 155,
+      "event": 106,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20177,
+    "fields": {
+      "user": 145,
+      "event": 106,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20178,
+    "fields": {
+      "user": 132,
+      "event": 106,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20179,
+    "fields": {
+      "user": 96,
+      "event": 106,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20180,
+    "fields": {
+      "user": 108,
+      "event": 106,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20181,
+    "fields": {
+      "user": 143,
+      "event": 106,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20182,
+    "fields": {
+      "user": 19,
+      "event": 107,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20183,
+    "fields": {
+      "user": 14,
+      "event": 107,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20184,
+    "fields": {
+      "user": 13,
+      "event": 107,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20185,
+    "fields": {
+      "user": 25,
+      "event": 107,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20186,
+    "fields": {
+      "user": 10,
+      "event": 107,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20187,
+    "fields": {
+      "user": 26,
+      "event": 107,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20188,
+    "fields": {
+      "user": 32,
+      "event": 107,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20189,
+    "fields": {
+      "user": 124,
+      "event": 107,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20190,
+    "fields": {
+      "user": 96,
+      "event": 107,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20191,
+    "fields": {
+      "user": 107,
+      "event": 107,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20192,
+    "fields": {
+      "user": 144,
+      "event": 107,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20193,
+    "fields": {
+      "user": 118,
+      "event": 107,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20194,
+    "fields": {
+      "user": 69,
+      "event": 107,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20195,
+    "fields": {
+      "user": 38,
+      "event": 107,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20196,
+    "fields": {
+      "user": 24,
+      "event": 107,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20197,
+    "fields": {
+      "user": 41,
+      "event": 107,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20198,
+    "fields": {
+      "user": 70,
+      "event": 107,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20199,
+    "fields": {
+      "user": 125,
+      "event": 107,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20200,
+    "fields": {
+      "user": 30,
+      "event": 108,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20201,
+    "fields": {
+      "user": 31,
+      "event": 108,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20202,
+    "fields": {
+      "user": 10,
+      "event": 108,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20203,
+    "fields": {
+      "user": 27,
+      "event": 108,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20204,
+    "fields": {
+      "user": 13,
+      "event": 108,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20205,
+    "fields": {
+      "user": 50,
+      "event": 108,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20206,
+    "fields": {
+      "user": 146,
+      "event": 108,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20207,
+    "fields": {
+      "user": 75,
+      "event": 108,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20208,
+    "fields": {
+      "user": 82,
+      "event": 108,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20209,
+    "fields": {
+      "user": 96,
+      "event": 108,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20210,
+    "fields": {
+      "user": 85,
+      "event": 108,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20211,
+    "fields": {
+      "user": 93,
+      "event": 108,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20212,
+    "fields": {
+      "user": 71,
+      "event": 108,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20213,
+    "fields": {
+      "user": 44,
+      "event": 108,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20214,
+    "fields": {
+      "user": 67,
+      "event": 108,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20215,
+    "fields": {
+      "user": 22,
+      "event": 108,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20216,
+    "fields": {
+      "user": 141,
+      "event": 108,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20217,
+    "fields": {
+      "user": 120,
+      "event": 108,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20218,
+    "fields": {
+      "user": 136,
+      "event": 108,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20219,
+    "fields": {
+      "user": 61,
+      "event": 108,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20220,
+    "fields": {
+      "user": 25,
+      "event": 109,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20221,
+    "fields": {
+      "user": 13,
+      "event": 109,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20222,
+    "fields": {
+      "user": 14,
+      "event": 109,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20223,
+    "fields": {
+      "user": 16,
+      "event": 109,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20224,
+    "fields": {
+      "user": 20,
+      "event": 109,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20225,
+    "fields": {
+      "user": 26,
+      "event": 109,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20226,
+    "fields": {
+      "user": 28,
+      "event": 109,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20227,
+    "fields": {
+      "user": 19,
+      "event": 109,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20228,
+    "fields": {
+      "user": 21,
+      "event": 109,
+      "status": "going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20229,
+    "fields": {
+      "user": 17,
+      "event": 109,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20230,
+    "fields": {
+      "user": 46,
+      "event": 109,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20231,
+    "fields": {
+      "user": 64,
+      "event": 109,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20232,
+    "fields": {
+      "user": 102,
+      "event": 109,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20233,
+    "fields": {
+      "user": 80,
+      "event": 109,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20234,
+    "fields": {
+      "user": 156,
+      "event": 109,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20235,
+    "fields": {
+      "user": 39,
+      "event": 109,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20236,
+    "fields": {
+      "user": 98,
+      "event": 109,
+      "status": "can go"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20237,
+    "fields": {
+      "user": 139,
+      "event": 109,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20238,
+    "fields": {
+      "user": 105,
+      "event": 109,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20239,
+    "fields": {
+      "user": 157,
+      "event": 109,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20240,
+    "fields": {
+      "user": 138,
+      "event": 109,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20241,
+    "fields": {
+      "user": 72,
+      "event": 109,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20242,
+    "fields": {
+      "user": 123,
+      "event": 109,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20243,
+    "fields": {
+      "user": 112,
+      "event": 109,
+      "status": "not going"
+    }
+  },
+  {
+    "model": "ETA.attendance",
+    "pk": 20244,
+    "fields": {
+      "user": 73,
+      "event": 109,
+      "status": "not going"
+    }
+  }
+]
