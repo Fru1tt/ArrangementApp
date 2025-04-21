@@ -1,0 +1,837 @@
+[
+{
+  "model": "ETA.profile",
+  "pk": 1,
+  "fields": {
+    "user": 5,
+    "bio": "",
+    "image": "profile_images/IMG_1987.jpeg",
+    "friends": [
+      2,
+      5
+    ]
+  }
+},
+{
+  "model": "ETA.profile",
+  "pk": 2,
+  "fields": {
+    "user": 6,
+    "bio": "",
+    "image": "profile_images/IMG_1456.jpeg",
+    "friends": [
+      1,
+      3,
+      5
+    ]
+  }
+},
+{
+  "model": "ETA.profile",
+  "pk": 3,
+  "fields": {
+    "user": 1,
+    "bio": "",
+    "image": "profile_images/Skjermbilde_2025-03-17_kl._19.40.00.png",
+    "friends": [
+      2,
+      3,
+      5
+    ]
+  }
+},
+{
+  "model": "ETA.profile",
+  "pk": 4,
+  "fields": {
+    "user": 2,
+    "bio": "",
+    "image": "",
+    "friends": [
+      5
+    ]
+  }
+},
+{
+  "model": "ETA.profile",
+  "pk": 5,
+  "fields": {
+    "user": 3,
+    "bio": "",
+    "image": "profile_images/Skjermbilde_2025-02-24_kl._14.56.57.png",
+    "friends": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  }
+},
+{
+  "model": "ETA.profile",
+  "pk": 6,
+  "fields": {
+    "user": 4,
+    "bio": "",
+    "image": "",
+    "friends": [
+      5
+    ]
+  }
+},
+{
+  "model": "ETA.profile",
+  "pk": 7,
+  "fields": {
+    "user": 7,
+    "bio": "",
+    "image": "",
+    "friends": []
+  }
+},
+{
+  "model": "ETA.profile",
+  "pk": 8,
+  "fields": {
+    "user": 8,
+    "bio": "",
+    "image": "",
+    "friends": []
+  }
+},
+{
+  "model": "ETA.profile",
+  "pk": 9,
+  "fields": {
+    "user": 9,
+    "bio": "",
+    "image": "",
+    "friends": []
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 1,
+  "fields": {
+    "title": "Datenight fabian's mor",
+    "description": "sexytime",
+    "start_date": "2025-02-24T17:45:12Z",
+    "end_date": "2025-02-24T00:00:00Z",
+    "is_public": true,
+    "created_at": "2025-02-24T16:19:15.292Z",
+    "host": 2,
+    "image": "event_images/IMG_1993.jpeg"
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 2,
+  "fields": {
+    "title": "PDiddy",
+    "description": "Accounting masterclass for masterclass accountants",
+    "start_date": "2025-02-26T19:00:00Z",
+    "end_date": "2025-02-27T04:00:00Z",
+    "is_public": true,
+    "created_at": "2025-02-24T17:46:23.275Z",
+    "host": 3,
+    "image": "event_images/Skjermbilde_2025-01-30_kl._14.07.50.png"
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 3,
+  "fields": {
+    "title": "Pardy",
+    "description": "Med LK",
+    "start_date": "2025-02-27T18:47:00Z",
+    "end_date": "2025-02-26T03:00:00Z",
+    "is_public": false,
+    "created_at": "2025-02-25T13:44:42.872Z",
+    "host": 3,
+    "image": ""
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 4,
+  "fields": {
+    "title": "Slutsfjell",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "start_date": "2025-02-25T14:45:00Z",
+    "end_date": "2025-02-25T17:46:00Z",
+    "is_public": true,
+    "created_at": "2025-02-25T13:45:28.136Z",
+    "host": 3,
+    "image": "event_images/Slottsfjell.jpg"
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 5,
+  "fields": {
+    "title": "Thig PENG",
+    "description": "Only for people with THIG PENGS\r\n\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "start_date": "2025-03-07T19:00:00Z",
+    "end_date": "2025-03-07T23:59:00Z",
+    "is_public": true,
+    "created_at": "2025-03-03T17:36:12.477Z",
+    "host": 3,
+    "image": "event_images/Skjermbilde_2025-02-24_kl._14.56.57.png"
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 6,
+  "fields": {
+    "title": "Kung fu Panda 4",
+    "description": "HYIAAA!! Only for people who isn't easily scared!",
+    "start_date": "2025-03-15T18:33:00Z",
+    "end_date": "2025-03-30T18:33:00Z",
+    "is_public": true,
+    "created_at": "2025-03-17T17:33:37.072Z",
+    "host": 3,
+    "image": "event_images/IMG_1131.jpeg"
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 7,
+  "fields": {
+    "title": "Test",
+    "description": "",
+    "start_date": "2025-03-06T16:39:00Z",
+    "end_date": "2025-03-07T16:39:00Z",
+    "is_public": false,
+    "created_at": "2025-03-26T15:40:03.209Z",
+    "host": 3,
+    "image": ""
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 8,
+  "fields": {
+    "title": "7y6trew",
+    "description": "grtefw",
+    "start_date": "2025-03-30T16:41:00Z",
+    "end_date": "2025-03-31T16:41:00Z",
+    "is_public": true,
+    "created_at": "2025-03-26T15:41:42.586Z",
+    "host": 1,
+    "image": ""
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 9,
+  "fields": {
+    "title": "GOKART",
+    "description": "Kart GO broom broom. *Crash**BANG*!\"#$%&%*BING*!\"#$%*BONG*",
+    "start_date": "2025-03-30T17:40:00Z",
+    "end_date": "2025-03-31T17:40:00Z",
+    "is_public": true,
+    "created_at": "2025-03-26T16:40:57.732Z",
+    "host": 3,
+    "image": "event_images/gokart.jpg"
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 10,
+  "fields": {
+    "title": "Test",
+    "description": "CARLTEST",
+    "start_date": "2025-03-29T19:21:00Z",
+    "end_date": "2025-03-30T19:22:00Z",
+    "is_public": true,
+    "created_at": "2025-03-26T18:22:12.508Z",
+    "host": 1,
+    "image": "event_images/IMG_1930.jpeg"
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 11,
+  "fields": {
+    "title": "Kakefest",
+    "description": "Spis kake med Erna på stortinget!",
+    "start_date": "2025-03-30T19:24:00Z",
+    "end_date": "2025-05-30T19:24:00Z",
+    "is_public": true,
+    "created_at": "2025-03-26T18:26:21.663Z",
+    "host": 8,
+    "image": "event_images/IMG_0837.png"
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 12,
+  "fields": {
+    "title": "TEST",
+    "description": "grfs",
+    "start_date": "2025-03-07T19:53:00Z",
+    "end_date": "2025-04-03T19:53:00Z",
+    "is_public": true,
+    "created_at": "2025-03-31T17:53:55.900Z",
+    "host": 3,
+    "image": ""
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 13,
+  "fields": {
+    "title": "Invitasjon til invitasjonen",
+    "description": "Test inv for inv",
+    "start_date": "2025-04-16T11:48:00Z",
+    "end_date": "2025-04-25T11:48:00Z",
+    "is_public": false,
+    "created_at": "2025-04-07T09:48:51.503Z",
+    "host": 1,
+    "image": "event_images/IMG_2236.png"
+  }
+},
+{
+  "model": "ETA.event",
+  "pk": 14,
+  "fields": {
+    "title": "Test invitasjon",
+    "description": "htegrwfdhtyr",
+    "start_date": "2025-04-19T11:53:00Z",
+    "end_date": "2025-04-25T11:53:00Z",
+    "is_public": true,
+    "created_at": "2025-04-07T09:53:44.672Z",
+    "host": 1,
+    "image": "event_images/IMG_1949.jpeg"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "event": 4,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "event": 1,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "event": 2,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 4,
+  "fields": {
+    "user": 3,
+    "event": 5,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 5,
+  "fields": {
+    "user": 3,
+    "event": 3,
+    "status": "not_going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 6,
+  "fields": {
+    "user": 1,
+    "event": 1,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 7,
+  "fields": {
+    "user": 1,
+    "event": 4,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 8,
+  "fields": {
+    "user": 1,
+    "event": 2,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 9,
+  "fields": {
+    "user": 1,
+    "event": 7,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 10,
+  "fields": {
+    "user": 1,
+    "event": 9,
+    "status": "not going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 11,
+  "fields": {
+    "user": 1,
+    "event": 3,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 12,
+  "fields": {
+    "user": 3,
+    "event": 10,
+    "status": "can go"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 13,
+  "fields": {
+    "user": 3,
+    "event": 8,
+    "status": "not going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 14,
+  "fields": {
+    "user": 3,
+    "event": 11,
+    "status": "can go"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 15,
+  "fields": {
+    "user": 4,
+    "event": 4,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 16,
+  "fields": {
+    "user": 3,
+    "event": 12,
+    "status": "not going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 17,
+  "fields": {
+    "user": 3,
+    "event": 13,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 18,
+  "fields": {
+    "user": 6,
+    "event": 14,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 19,
+  "fields": {
+    "user": 2,
+    "event": 4,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 20,
+  "fields": {
+    "user": 8,
+    "event": 4,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 21,
+  "fields": {
+    "user": 6,
+    "event": 4,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 22,
+  "fields": {
+    "user": 7,
+    "event": 4,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 23,
+  "fields": {
+    "user": 5,
+    "event": 4,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 24,
+  "fields": {
+    "user": 3,
+    "event": 9,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 25,
+  "fields": {
+    "user": 4,
+    "event": 1,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 26,
+  "fields": {
+    "user": 5,
+    "event": 1,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 27,
+  "fields": {
+    "user": 6,
+    "event": 1,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.attendance",
+  "pk": 28,
+  "fields": {
+    "user": 9,
+    "event": 1,
+    "status": "going"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 1,
+  "fields": {
+    "event": 4,
+    "timestamp": "2025-03-24T15:49:57.200Z",
+    "from_user": 1,
+    "to_user": 3,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 2,
+  "fields": {
+    "event": 4,
+    "timestamp": "2025-03-24T16:28:30.836Z",
+    "from_user": 3,
+    "to_user": 1,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 3,
+  "fields": {
+    "event": 4,
+    "timestamp": "2025-03-24T16:28:46.078Z",
+    "from_user": 3,
+    "to_user": 6,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 4,
+  "fields": {
+    "event": 1,
+    "timestamp": "2025-03-24T16:56:05.444Z",
+    "from_user": 3,
+    "to_user": 6,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 5,
+  "fields": {
+    "event": 5,
+    "timestamp": "2025-03-24T18:08:03.585Z",
+    "from_user": 3,
+    "to_user": 1,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 6,
+  "fields": {
+    "event": 1,
+    "timestamp": "2025-03-26T15:37:57.086Z",
+    "from_user": 1,
+    "to_user": 3,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 7,
+  "fields": {
+    "event": 1,
+    "timestamp": "2025-03-26T15:38:36.654Z",
+    "from_user": 3,
+    "to_user": 1,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 8,
+  "fields": {
+    "event": 2,
+    "timestamp": "2025-03-26T15:39:22.790Z",
+    "from_user": 1,
+    "to_user": 3,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 9,
+  "fields": {
+    "event": 7,
+    "timestamp": "2025-03-26T15:40:09.024Z",
+    "from_user": 3,
+    "to_user": 1,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 10,
+  "fields": {
+    "event": 2,
+    "timestamp": "2025-03-26T16:34:01.035Z",
+    "from_user": 3,
+    "to_user": 1,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 11,
+  "fields": {
+    "event": 8,
+    "timestamp": "2025-03-26T16:34:22.504Z",
+    "from_user": 1,
+    "to_user": 3,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 12,
+  "fields": {
+    "event": 3,
+    "timestamp": "2025-03-26T18:20:27.818Z",
+    "from_user": 3,
+    "to_user": 1,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 13,
+  "fields": {
+    "event": 10,
+    "timestamp": "2025-03-31T12:09:05.260Z",
+    "from_user": 3,
+    "to_user": 2,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 14,
+  "fields": {
+    "event": 10,
+    "timestamp": "2025-03-31T12:09:08.792Z",
+    "from_user": 3,
+    "to_user": 6,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 15,
+  "fields": {
+    "event": 10,
+    "timestamp": "2025-03-31T15:29:02.731Z",
+    "from_user": 3,
+    "to_user": 1,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 16,
+  "fields": {
+    "event": 1,
+    "timestamp": "2025-03-31T16:54:35.287Z",
+    "from_user": 1,
+    "to_user": 4,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 17,
+  "fields": {
+    "event": 1,
+    "timestamp": "2025-03-31T17:05:05.305Z",
+    "from_user": 3,
+    "to_user": 5,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 18,
+  "fields": {
+    "event": 13,
+    "timestamp": "2025-04-07T09:48:58.317Z",
+    "from_user": 1,
+    "to_user": 3,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 19,
+  "fields": {
+    "event": 14,
+    "timestamp": "2025-04-07T09:53:59.004Z",
+    "from_user": 1,
+    "to_user": 3,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 20,
+  "fields": {
+    "event": 10,
+    "timestamp": "2025-04-07T10:26:05.252Z",
+    "from_user": 3,
+    "to_user": 4,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 21,
+  "fields": {
+    "event": 10,
+    "timestamp": "2025-04-07T10:26:08.339Z",
+    "from_user": 3,
+    "to_user": 7,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 22,
+  "fields": {
+    "event": 14,
+    "timestamp": "2025-04-07T10:29:49.877Z",
+    "from_user": 3,
+    "to_user": 6,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 23,
+  "fields": {
+    "event": 14,
+    "timestamp": "2025-04-07T10:31:49.800Z",
+    "from_user": 3,
+    "to_user": 2,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 24,
+  "fields": {
+    "event": 14,
+    "timestamp": "2025-04-07T10:34:15.052Z",
+    "from_user": 3,
+    "to_user": 1,
+    "status": "pending"
+  }
+},
+{
+  "model": "ETA.eventinvite",
+  "pk": 25,
+  "fields": {
+    "event": 5,
+    "timestamp": "2025-04-07T10:36:15.307Z",
+    "from_user": 1,
+    "to_user": 3,
+    "status": "pending"
+  }
+}
+]

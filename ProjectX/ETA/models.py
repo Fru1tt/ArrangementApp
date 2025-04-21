@@ -17,6 +17,17 @@ class Event(models.Model):
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to='event_images/', null=True, blank=True)
 
+    @property
+    def going_count(self):
+        return self.attendance_set.filter(status='going').count()
+    
+    def friends_going_count(self, user):
+        friend_ids = user.profile.friends.values_list('id', flat=True)
+        return self.attendance_set.filter(
+            status='going',
+            user_id__in=friend_ids
+        ).count()
+
     def __str__(self):
         return self.title
     

@@ -12,30 +12,97 @@ from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 
 User = get_user_model()
+from .algorithm import compute_aura_score
+from datetime import datetime
 
-
+#--------------------------------------------------Home page view--------------------------------------------#
 def event_list(request):
-    # Get all public events ordered by start date.
+    user = request.user
+
+    #---------------------- Fetch Public Events ----------------------#
     events = Event.objects.filter(is_public=True).order_by('start_date')
-    
-    if request.user.is_authenticated:
-        # Exclude events where the user is the host.
-        public_events = events.exclude(host=request.user)
-        events_data = [
-            {
-                'event': event,
-                'attendance': Attendance.objects.filter(user=request.user, event=event).first()
-            }
-            for event in public_events
-        ]
+
+    #---------------------- Upcoming Events Data ----------------------#
+    public_events = events.exclude(host=user) if user.is_authenticated else events
+    events_data = []
+    for event in public_events:
+        attendance = (
+            Attendance.objects.filter(user=user, event=event).first()
+            if user.is_authenticated
+            else None
+        )
+
+        event.total_going   = event.going_count
+        event.friends_going = (
+            event.friends_going_count(user)
+            if user.is_authenticated
+            else 0
+        )
+
+        events_data.append({
+            'event':      event,
+        'attendance': attendance,
+        })
+
+    #---------------------- Preparing Friend IDs ----------------------#
+    if user.is_authenticated:
+        friend_ids = list(user.profile.friends.values_list('id', flat=True))
     else:
-        # For anonymous users, wrap each event in a dictionary with no attendance.
-        events_data = [{'event': event, 'attendance': None} for event in events]
-    
-    context = {'events_data': events_data}
+        friend_ids = []
+
+    #---------------------- Computing Trending Events ----------------------#
+    trending_events = []
+    for event in events:
+        # Days until the event
+        T = (event.start_date.date() - datetime.now().date()).days
+
+        # Friend interactions
+        friend_going       = Attendance.objects.filter(event=event, user__in=friend_ids, status='going').count()
+        friend_interested  = Attendance.objects.filter(event=event, user__in=friend_ids, status='can go').count()
+        friend_not_going   = Attendance.objects.filter(event=event, user__in=friend_ids, status='not going').count()
+
+        # Public interactions
+        total_going        = Attendance.objects.filter(event=event, status='going').count()
+        total_interested   = Attendance.objects.filter(event=event, status='can go').count()
+        total_not_going    = Attendance.objects.filter(event=event, status='not going').count()
+
+        public_going       = total_going - (friend_going if friend_ids else 0)
+        public_interested  = total_interested - (friend_interested if friend_ids else 0)
+        public_not_going   = total_not_going - (friend_not_going if friend_ids else 0)
+
+        # Compute aura score
+        aura_score = compute_aura_score(
+            friend_going, friend_interested, friend_not_going,
+            public_going, public_interested, public_not_going,
+            T
+        )
+        #-------- Badges-------
+        #Users attendance
+        attendance = None
+        if user.is_authenticated:
+            attendance = Attendance.objects.filter(user=user, event=event).first()
+
+        #------ public and friend counter-----
+        event.total_going   = event.going_count
+        event.friends_going = event.friends_going_count(user) if user.is_authenticated else 0
+
+        trending_events.append({
+            'event':      event,
+            'aura_score': aura_score,
+            'attendance': attendance,
+        })
+
+    #---------------------- Sort Trending Events ----------------------#
+    trending_events.sort(key=lambda x: x['aura_score'], reverse=True)
+
+    #---------------------- Render Context ----------------------#
+    context = {
+        'events_with_attendance': events_data,
+        'trending_events':        trending_events,
+    }
     return render(request, 'ETA/home.html', context)
 
-
+#---------------------------------------------------------Register account--------------------------------------------------#
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -47,6 +114,7 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'ETA/register.html', {'form': form})
 
+#---------------------------------------------------------Create event--------------------------------------------------#
 @login_required
 def create_event(request):
     if request.method == 'POST':
@@ -69,43 +137,78 @@ def create_event(request):
     return render(request, 'ETA/create_event.html', {'form': form})
 
 
-#----------------------------My Events view filter logic----------------------#
+#--------------------------------------------------My Events view filter logic--------------------------------------------#
 def my_events(request):
     if not request.user.is_authenticated:
         messages.warning(request, "You have to log in to use this feature.")
         return redirect('login')
-    # Hosted events
-    hosted_events = Event.objects.filter(host=request.user)
-    hosted_events_data = [{'event': event, 'attendance': None} for event in hosted_events]
+    
+    user = request.user
 
-    # Attending events (excluding those hosted by the user)
-    attending_attendances = Attendance.objects.filter(
-        user=request.user,
-        status__in=['going', 'can_go']
-    ).exclude(event__host=request.user)
-    attending_events_data = [{'event': att.event, 'attendance': att} for att in attending_attendances]
+    # -------------------------------- Hosted Events --------------------------------
+    hosted_events = Event.objects.filter(host=user).order_by('start_date')
+    hosted_events_data = []
+    for event in hosted_events:
+        event.total_going   = event.going_count
+        event.friends_going = event.friends_going_count(user)
 
-    # Pending invites: Get pending invites for the user,
-    # then exclude events where the user is the host or already has an attendance record.
+        # your attendance (always None for hosted)
+        attendance = None
+
+        hosted_events_data.append({
+            'event':      event,
+            'attendance': attendance,
+        })
+
+    # ---------------------------- Attending Events -------------------------------
+    attendance_records = Attendance.objects.filter(
+        user=user,
+        status__in=['going', 'can go']
+    ).exclude(event__host=user)
+
+    attending_events_data = []
+    for attendance in attendance_records:
+        event = attendance.event
+        # promote counts
+        event.total_going   = event.going_count
+        event.friends_going = event.friends_going_count(user)
+
+        attending_events_data.append({
+            'event':      event,
+            'attendance': attendance,
+        })
+
+    # ---------------------------- Pending Invites --------------------------------
     pending_invites = EventInvite.objects.filter(
-        to_user=request.user,
+        to_user=user,
         status='pending'
-    ).exclude(event__host=request.user)
-    
-    # Exclude events for which an Attendance record exists for this user
-    attended_event_ids = Attendance.objects.filter(user=request.user).values_list('event', flat=True)
-    pending_invites = pending_invites.exclude(event__in=attended_event_ids)
-    
-    pending_invite_events_data = [{'event': invite.event, 'invite': invite} for invite in pending_invites]
+    ).exclude(event__host=user)
+
+    # Exclude events user has already attended/responded to
+    responded_ids = Attendance.objects.filter(user=user).values_list('event', flat=True)
+    pending_invites = pending_invites.exclude(event__in=responded_ids)
+
+    pending_invite_events_data = []
+    for invite in pending_invites:
+        event = invite.event
+        # promote counts
+        event.total_going   = event.going_count
+        event.friends_going = event.friends_going_count(user)
+
+        pending_invite_events_data.append({
+            'event': event,
+            'invite': invite,
+        })
 
     context = {
-        'hosted_events_data': hosted_events_data,
-        'attending_events_data': attending_events_data,
+        'hosted_events_data':         hosted_events_data,
+        'attending_events_data':      attending_events_data,
         'pending_invite_events_data': pending_invite_events_data,
     }
     return render(request, 'ETA/my_events.html', context)
 
 
+#---------------------------------------------------------Profile and logout--------------------------------------------------#
 @login_required
 def profile(request):
     return render(request, 'ETA/profile.html')
@@ -114,7 +217,7 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-
+#---------------------------------------------------------Event detail--------------------------------------------------#
 def event_detail(request, event_id):
     if not request.user.is_authenticated:
         messages.warning(request, "You have to log in to use this feature.")
@@ -153,7 +256,7 @@ def event_detail(request, event_id):
 
     return render(request, 'ETA/event_detail.html', context)
    
-
+#---------------------------------------------------------Edit event--------------------------------------------------#
 @login_required
 def event_edit(request, event_id):
     event = get_object_or_404(Event, id=event_id)
@@ -173,6 +276,7 @@ def event_edit(request, event_id):
     
     return render(request, 'ETA/event_edit.html', {'form': form, 'event': event})
 
+#---------------------------------------------------------Friend related--------------------------------------------------#
 #-----------------------------Friend Search----------------------#
 def friend_page(request):
     if not request.user.is_authenticated:
@@ -196,7 +300,7 @@ def friend_page(request):
     return render(request, 'ETA/friend_page.html', context)
 
 
-#-----------------------------Friend request----------------------#
+#-----------------------------Send Friend request----------------------#
 from .models import FriendRequest
 @login_required
 def send_friend_request(request, to_user_id):
@@ -206,6 +310,7 @@ def send_friend_request(request, to_user_id):
         FriendRequest.objects.get_or_create(from_user=request.user, to_user=to_user)
     return redirect('friend_page')  # Or redirect to the user's profile
 
+#-----------------------------Accept Friend request----------------------#
 @login_required
 def accept_friend_request(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
@@ -217,6 +322,7 @@ def accept_friend_request(request, request_id):
         friend_request.delete()  # Remove the friend request once accepted.
     return redirect('friend_page')
 
+#-----------------------------Decline Friend request----------------------#
 @login_required
 def decline_friend_request(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)

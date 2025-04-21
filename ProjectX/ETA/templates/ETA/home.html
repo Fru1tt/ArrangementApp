@@ -14,13 +14,28 @@
     <a href="{% url 'register' %}" class="btn btn-primary btn-lg mt-3">Join Now to Create Events</a>
   {% endif %}
 </div>
-
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 
+<!-- Trending Events Section ("What's Hot") -->
+<div class="section-wrapper mb-3"></div>
+<h2 class="mb-4">What's Hot 🔥</h2>
+<div class="horizontal-scroll-container">
+  {% for item in trending_events %}
+    {% with event=item.event attendance=item.attendance %}
+      {% include "ETA/partials/event_card.html" %}
+      <p class="text-muted small">Score: {{ item.aura_score|floatformat:0 }}</p>
+    {% endwith %}
+  {% empty %}
+    <p class="text-muted">No trending events found.</p>
+  {% endfor %}
+</div>
+
+
 <!-- Upcoming Events Section -->
-<h2 class="mb-4">Upcoming Events</h2>
+<div class="section-wrapper">
+<h2 class="mb-4">Upcoming Events </h2>
 <div class="row">
-  {% for item in events_data %}
+  {% for item in events_with_attendance %}
     {% with event=item.event attendance=item.attendance %}
       {% include "ETA/partials/event_card.html" %}
     {% endwith %}
@@ -28,6 +43,7 @@
     <div class="col-12">
       <p class="text-muted">No upcoming events to show.</p>
     </div>
+</div>
   {% endfor %}
 </div>
 {% endblock %}
