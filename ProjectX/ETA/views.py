@@ -219,50 +219,55 @@ def logout_view(request):
 
 #---------------------------------------------------------Event detail--------------------------------------------------#
 def event_detail(request, event_id):
-    if not request.user.is_authenticated:
+    user = request.user
+
+    if not user.is_authenticated:
         messages.warning(request, "You have to log in to use this feature.")
         return redirect('login')
+    
     event = get_object_or_404(Event, id=event_id)
-    attendance = Attendance.objects.filter(user=request.user, event=event).first()
-    current_friends = request.user.profile.friends.all()
-    total_going = event.going_count
 
-    friends_going = (
-        event.friends_going_count(request.user)
-        if request.user.is_authenticated
+    #-------------------------- RSVP Counts ---------------------------#
+    event.total_going   = event.going_count
+    event.friends_going = (
+        event.friends_going_count(user)
+        if user.is_authenticated
         else 0
     )
-
+    #-------------------------- Attendance -----------------------------#
+    attendance = Attendance.objects.filter(user=user, event=event).first()
+    #----------------------- Current Friends --------------------------#
+    current_friends = user.profile.friends.all()
+    #------------------------- Invited IDs ----------------------------#
     invited_ids = list(
-        EventInvite.objects.filter(event=event, from_user=request.user)
-        .values_list('to_user', flat=True)
+        EventInvite.objects
+                   .filter(event=event, from_user=user)
+                   .values_list('to_user', flat=True)
     )
 
-    friends_going = []
-    inviteable_friends = []
+    #----------- Friends Going vs Inviteable Friends -----------------#
+    friends_list_going   = []
+    inviteable_friends   = []
     for friend in current_friends:
-        if friend.user == request.user:
+        if friend.user == user:
             continue
-        friend_attendance = Attendance.objects.filter(
+        if Attendance.objects.filter(
             user=friend.user,
             event=event,
             status='going'
-        ).first()
-        if friend_attendance:
-            friends_going.append(friend)
+        ).exists():
+            friends_list_going.append(friend)
         else:
             inviteable_friends.append(friend)
 
+    #------------------------ Render Context -------------------------#
     context = {
-        'event': event,
-        'attendance': attendance,
-        'invited_ids': invited_ids,
-        'friends_going': friends_going,
+        'event':              event,
+        'attendance':         attendance,
+        'invited_ids':        invited_ids,
+        'friends_list_going': friends_list_going,
         'inviteable_friends': inviteable_friends,
-        "total_going":  total_going,
-        "friends_going": friends_going,
     }
-
     return render(request, 'ETA/event_detail.html', context)
    
 #---------------------------------------------------------Edit event--------------------------------------------------#

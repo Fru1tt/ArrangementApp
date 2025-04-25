@@ -36,9 +36,9 @@
         {% elif attendance %}
           {% if attendance.status == "going" %}
             <span class="badge badge-success">Going</span>
-          {% elif attendance.status == "can go" %}
+          {% elif attendance.status == "can_go" %}
             <span class="badge badge-warning">Can Go</span>
-          {% elif attendance.status == "not going" %}
+          {% elif attendance.status == "not_going" %}
             <span class="badge badge-danger">Not Going</span>
           {% endif %}
         {% else %}
@@ -60,7 +60,7 @@
         </span>
 
         {% if event.host %}
-            <small class="text-muted float-right">Host: {{ event.host.username }}</small>
+            <small class="text-muted float-right mt-1"><img src="{% static 'images/host.png' %}" width="18" height="18" alt="friends"> {{ event.host.username }}</small>
           {% endif %}
       </div>
       

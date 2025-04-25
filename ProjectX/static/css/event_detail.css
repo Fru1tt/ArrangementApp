@@ -30,7 +30,8 @@
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
-    background-color: #adcfef;
+    background-color: #eef6ff;
+    border: 1px solid #586d82;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
   }
@@ -43,14 +44,121 @@
     border: 2px solid #586d82;
   }
   
-  .host-info small {
+  .host-card .host-info small {
     color: #6c757d;
     font-size: 0.75rem;
   }
   
-  .host-info strong {
+  .host-card .host-info strong {
     font-size: 1rem;
     line-height: 1.2;
   }
   
-  
+.host-card.mb-0 {
+  margin-bottom: 0;
+}
+
+.count-card {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background-color: #eef6ff;
+  border: 1px solid #586d82;
+  border-radius: 0.5rem;
+}
+.count-card:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.count-card img {
+  display: block;
+  margin-right: 0.5rem;
+}
+
+.count-number {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.time-card {
+  padding: 0.75rem 1rem;
+  background-color: #eef6ff;
+  border: 1px solid #586d82;
+  border-radius: 0.5rem;
+  flex: 0 0 auto;
+}
+
+.time-icon {
+  margin-right: 0.5rem;
+  margin-bottom: 0;
+}
+
+.time-text {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.status-badge {
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.status-btn-row {
+  flex-wrap: wrap;
+}
+
+.status-btn-row .btn-group {
+  margin-left: auto;
+}
+
+.btn-group-lg .btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.btn-group-lg .btn.active {
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,0.2);
+  opacity: 0.9;
+}
+
+.status-btn-row .badge + .btn-group {
+  margin-left: 1rem;
+}
+
+.status-wrapper {
+  padding: 0.75rem 1rem;
+  background-color: #eef6ff;
+  border: 1px solid #586d82;
+  border-radius: 0.5rem;
+}
+
+.status-wrapper .btn + .btn {
+  margin-left: 0.5rem;
+}
+
+.outline-btn {
+  background-color: white;
+  color: #2780e3;
+  border: 2px solid #b3d7ef;
+}
+
+.outline-btn.active.success-btn {
+  background-color: #28a745;
+  border-color:    #28a745;
+  color:           white;
+}
+.outline-btn.active.warning-btn {
+  background-color: #ffc107;
+  border-color:    #ffc107;
+  color:           white;
+}
+.outline-btn.active.danger-btn {
+  background-color: #dc3545;
+  border-color:    #dc3545;
+  color:           white;
+}
+
+.status-form .btn + .btn {
+  margin-left: 0.5rem;
+}
