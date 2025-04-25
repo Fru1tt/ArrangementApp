@@ -35,7 +35,6 @@
     margin-bottom: 1rem;
   }
   
-
   .host-card .host-avatar {
     width: 48px;
     height: 48px;
@@ -44,13 +43,14 @@
     border: 2px solid #586d82;
   }
   
-
-  .host-card .host-info small {
+  .host-info small {
     color: #6c757d;
     font-size: 0.75rem;
   }
-  .host-card .host-info strong {
+  
+  .host-info strong {
     font-size: 1rem;
     line-height: 1.2;
   }
+  
   

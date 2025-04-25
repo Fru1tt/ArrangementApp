@@ -419,3 +419,11 @@ def view_notification(request, notif_id):
     notif.save()
     return redirect(notif.link or 'event_list')  # fallback in case link is blank
 
+
+#---------------------------------------------------------Profilepage--------------------------------------------------#
+@login_required
+def profilepage(request, username):
+    
+    context = {
+    }
+    return render(request, 'ETA/profilepage.html', context)
