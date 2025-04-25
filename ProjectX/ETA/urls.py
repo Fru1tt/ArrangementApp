@@ -27,4 +27,6 @@ urlpatterns = [
     
     path('update-attendance/', views.update_attendance, name='update_attendance'),
 
+    path("profilepage/<str:username>/", views.profile, name="profilepage"),
+
 ]

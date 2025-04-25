@@ -225,6 +225,13 @@ def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     attendance = Attendance.objects.filter(user=request.user, event=event).first()
     current_friends = request.user.profile.friends.all()
+    total_going = event.going_count
+
+    friends_going = (
+        event.friends_going_count(request.user)
+        if request.user.is_authenticated
+        else 0
+    )
 
     invited_ids = list(
         EventInvite.objects.filter(event=event, from_user=request.user)
@@ -252,6 +259,8 @@ def event_detail(request, event_id):
         'invited_ids': invited_ids,
         'friends_going': friends_going,
         'inviteable_friends': inviteable_friends,
+        "total_going":  total_going,
+        "friends_going": friends_going,
     }
 
     return render(request, 'ETA/event_detail.html', context)
