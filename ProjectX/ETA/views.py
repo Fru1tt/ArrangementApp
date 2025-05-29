@@ -8,12 +8,11 @@ from .models import Event, FriendRequest, Profile, Attendance, EventInvite
 from .forms import EventForm, ProfileUpdateForm
 from django.contrib.auth import get_user_model
 from .models import Notification
-from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
-
-User = get_user_model()
 from .algorithm import compute_aura_score
 from datetime import datetime
+
+User = get_user_model()
 
 #--------------------------------------------------Home page view--------------------------------------------#
 def event_list(request):
@@ -123,7 +122,6 @@ def create_event(request):
             event = form.save(commit=False)
             event.host = request.user
             event.save()
-
             if event.is_public:
                 for friend in request.user.profile.friends.all():
                     Notification.objects.create(
@@ -132,6 +130,9 @@ def create_event(request):
                         link=f"/event/{event.id}/"
                     )
             return redirect('my_events')
+        else:
+            for err in form.non_field_errors():
+                messages.warning(request, err)
     else:
         form = EventForm()
     return render(request, 'ETA/create_event.html', {'form': form})
@@ -319,10 +320,13 @@ from .models import FriendRequest
 @login_required
 def send_friend_request(request, to_user_id):
     to_user = get_object_or_404(User, id=to_user_id)
-    # Prevent sending a request to yourself
     if to_user != request.user:
-        FriendRequest.objects.get_or_create(from_user=request.user, to_user=to_user)
-    return redirect('friend_page')  # Or redirect to the user's profile
+        fr, created = FriendRequest.objects.get_or_create(from_user=request.user, to_user=to_user)
+        if created:
+            messages.success(request, "Friendrequest sent successfully.")
+        else:
+            messages.warning(request, "You have already sent a friend request to this user.")
+    return redirect('friend_page')
 
 #-----------------------------Accept Friend request----------------------#
 @login_required
@@ -373,7 +377,13 @@ def manage_account(request):
             messages.success(request, 'Your profile picture has been updated successfully!')
             return redirect('manage_account')
         else:
-            messages.error(request, 'Please correct the errors below.')
+            # Show all field errors
+            for field, errors in profile_form.errors.items():
+                for err in errors:
+                    messages.error(request, f"{field}: {err}")
+            # Show non-field errors
+            for err in profile_form.non_field_errors():
+                messages.error(request, err)
     else:
         profile_form = ProfileUpdateForm(instance=profile)
     

@@ -83,50 +83,53 @@
           </div>
         </div>
         
-  <!-- Attendance + Status Box -->
-  <div class="status-wrapper d-flex align-items-center mb-4">
-    <form method="post" action="{% url 'update_attendance' %}" class="status-form d-flex align-items-center">
-      {% csrf_token %}
-      <input type="hidden" name="event_id" value="{{ event.id }}">
-    
-      <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label
-          class="btn outline-btn success-btn {% if attendance and attendance.status == 'going' %}active{% endif %}" >
-          <input type="radio" name="status" value="going" autocomplete="off" onchange="this.form.submit()"
-            {% if attendance and attendance.status == 'going' %}checked{% endif %}
-          > Going
-        </label>
-    
-        <label
-          class="btn outline-btn warning-btn {% if attendance and attendance.status == 'can_go' %}active{% endif %}">
-          <input type="radio" name="status" value="can_go" autocomplete="off" onchange="this.form.submit()"
-            {% if attendance and attendance.status == 'can_go' %}checked{% endif %}>
+<!-- Attendance buttons + Map side by side -->
+<div class="row align-items-start mb-4">
+  <!-- Attendance -->
+  <div class="col-auto">
+    <div class="status-wrapper p-3">
+      <form method="post" action="{% url 'update_attendance' %}" class="d-flex">
+        {% csrf_token %}
+        <input type="hidden" name="event_id" value="{{ event.id }}">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn outline-btn success-btn {% if attendance and attendance.status == 'going' %}active{% endif %}">
+            <input type="radio" name="status" value="going" autocomplete="off" onchange="this.form.submit()"
+                   {% if attendance and attendance.status == 'going' %}checked{% endif %}>
+            Going
+          </label>
+          <label class="btn outline-btn warning-btn {% if attendance and attendance.status == 'can_go' %}active{% endif %}">
+            <input type="radio" name="status" value="can_go" autocomplete="off" onchange="this.form.submit()"
+                   {% if attendance and attendance.status == 'can_go' %}checked{% endif %}>
             Can Go
-        </label>
-    
-        <label
-          class="btn outline-btn danger-btn {% if attendance and attendance.status == 'not_going' %}active{% endif %}">
-          <input type="radio" name="status" value="not_going" autocomplete="off" onchange="this.form.submit()"
-            {% if attendance and attendance.status == 'not_going' %}checked{% endif %}>
+          </label>
+          <label class="btn outline-btn danger-btn {% if attendance and attendance.status == 'not_going' %}active{% endif %}">
+            <input type="radio" name="status" value="not_going" autocomplete="off" onchange="this.form.submit()"
+                   {% if attendance and attendance.status == 'not_going' %}checked{% endif %}>
             Not Going
-        </label>
-      </div>
-    </form>
-
-    <!-- Public / Going Pills -->
-    <div class="ml-4 d-flex align-items-center">
-      {% if event.is_public %}
-        <span class="badge badge-success badge-pill status-badge mr-2">Public</span>
-      {% else %}
-        <span class="badge badge-secondary badge-pill status-badge mr-2">Private</span>
-      {% endif %}
+          </label>
+        </div>
+      </form>
     </div>
   </div>
+
+  <!-- Map -->
+  <div class="col">
+    {% if event.location %}
+      <div class="map-box">
+        <iframe
+          width="100%" height="100%" frameborder="0" style="border:0"
+          src="https://www.google.com/maps?q={{ event.location|urlencode }}&output=embed"
+          allowfullscreen>
+        </iframe>
+      </div>
+    {% endif %}
+  </div>
+</div>
   <!-- Event Description -->
    <h3>More About the Event</h3>
   <p class="card-text">{{ event.description }}</p>
 
-<!-- Auto-submit script -->
+<!-- Auto-submit script for pill buttons -->
 <script>
   document.querySelectorAll('input[name="status"]').forEach(input =>
     input.addEventListener('change', () => input.form.submit())

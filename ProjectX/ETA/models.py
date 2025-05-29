@@ -4,11 +4,13 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+
 User = get_user_model()
 
 # Create your models here.
 class Event(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, help_text ="Enter a title")
     description = models.TextField(blank=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
@@ -16,6 +18,12 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to='event_images/', null=True, blank=True)
+    location = models.CharField(max_length=255, blank=True, help_text="Enter a street address or place name")
+
+    def clean(self):
+        super().clean()
+        if self.start_date > self.end_date:
+            raise ValidationError("Start date cannot be after end date.")
 
     @property
     def going_count(self):

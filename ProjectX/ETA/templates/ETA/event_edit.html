@@ -1,15 +1,113 @@
 {% extends "ETA/base.html" %}
+{% load static %}
 
-{% block title %}Edit Event{% endblock title %}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/event_detail.css' %}">
+{% endblock extra_css %}
+
+{% block title %}Edit: {{ event.title }}{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Edit Event</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Save Changes</button>
+<div class="row">
+  <!-- Left Column: Main Event Card -->
+  <div class="col-md-8 mb-4">
+    <form id="event-form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="card">
+        <!-- Image + Overlay Title -->
+        <div class="event-detail-image-container">
+          {% if event.image %}
+            <img src="{{ event.image.url }}" class="event-detail-image" alt="{{ event.title }}">
+          {% else %}
+            <img src="{% static 'images/static-event.png' %}" class="event-detail-image" alt="No image">
+          {% endif %}
+
+          <!-- Editable Title -->
+          <div class="event-title-overlay">
+            {{ form.title }}
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <!-- Image Upload Field -->
+          <div class="form-group">
+            {{ form.image.label_tag }}
+            {{ form.image }}
+          </div>
+
+          <!-- Date & Time -->
+          <div class="d-flex align-items-center mb-3">
+            <div class="form-group mr-2">
+              {{ form.start_date.label_tag }}
+              {{ form.start_date }}
+            </div>
+            <div class="form-group">
+              {{ form.end_date.label_tag }}
+              {{ form.end_date }}
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group">
+            {{ form.location.label_tag }}
+            {{ form.location }}
+          </div>
+
+          <!-- Location Map -->
+          <div class="map-box mb-3">
+            <iframe
+              id="preview-map"
+              width="100%" height="200" frameborder="0" style="border:0"
+              src="https://www.google.com/maps?q={{ event.location|urlencode }}&output=embed"
+              allowfullscreen>
+            </iframe>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+          </div>
+
+          <!-- Public checkbox -->
+          <div class="form-check mb-3">
+            {{ form.is_public }} {{ form.is_public.label_tag }}
+          </div>
+
+          <!-- Submit + Cancel -->
+          <button type="submit" class="btn btn-warning">Save Changes</button>
+          <a href="{% url 'event_detail' event.id %}" class="btn btn-link">Cancel</a>
+
+        </div>
+      </div>
     </form>
-    <a href="{% url 'event_detail' event.id %}" class="btn btn-link mt-2">Cancel</a>
+  </div>
+
+  <!-- Right Column: Placeholder or Note -->
+  <div class="col-md-4 mb-4">
+    <div class="card">
+      <div class="card-body text-muted">
+        <p>This page mirrors the event layout, but only includes editable fields.<br>
+        Attendance and invite controls are only visible on the event page.</p>
+      </div>
+    </div>
+  </div>
 </div>
-{% endblock content %}
+
+<!-- Map Live Preview Script -->
+<script>
+  function updateMap(address) {
+    const ctr = document.getElementById('preview-map');
+    ctr.src = 'https://www.google.com/maps?q=' + encodeURIComponent(address) + '&output=embed';
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const locationInput = document.querySelector('[name="location"]');
+    if (locationInput) {
+      locationInput.addEventListener('input', e => updateMap(e.target.value));
+    }
+  });
+</script>
+{% endblock %}

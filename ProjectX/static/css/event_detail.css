@@ -162,3 +162,17 @@
 .status-form .btn + .btn {
   margin-left: 0.5rem;
 }
+
+.status-wrapper {
+  background-color: #eef6ff;
+  border: 1px solid #586d82;
+  border-radius: 0.5rem;
+}
+
+/* fixed-height, rounded iframe container */
+.map-box {
+  height: 230px;
+  border: 1px solid #586d82;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
