@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.http import HttpResponseForbidden  
-from .models import Event, FriendRequest, Profile, Attendance, EventInvite  
+from .models import Event, FriendRequest, Profile, Attendance, EventInvite, InviteRequest 
 from .forms import EventForm, ProfileUpdateForm
 from django.contrib.auth import get_user_model
 from .models import Notification
@@ -19,7 +19,7 @@ def event_list(request):
     user = request.user
 
     #---------------------- Fetch Public Events ----------------------#
-    events = Event.objects.filter(is_public=True).order_by('start_date')
+    events = Event.objects.upcomingEvent().filter(is_public=True).order_by('start_date')
 
     #---------------------- Upcoming Events Data ----------------------#
     public_events = events.exclude(host=user) if user.is_authenticated else events
@@ -39,7 +39,7 @@ def event_list(request):
         )
 
         events_data.append({
-            'event':      event,
+            'event': event,
         'attendance': attendance,
         })
 
@@ -93,6 +93,8 @@ def event_list(request):
 
     #---------------------- Sort Trending Events ----------------------#
     trending_events.sort(key=lambda x: x['aura_score'], reverse=True)
+    trending_events = trending_events[:10]
+    
 
     #---------------------- Render Context ----------------------#
     context = {
@@ -147,7 +149,7 @@ def my_events(request):
     user = request.user
 
     # -------------------------------- Hosted Events --------------------------------
-    hosted_events = Event.objects.filter(host=user).order_by('start_date')
+    hosted_events = Event.objects.upcomingEvent().filter(host=user).order_by('start_date')
     hosted_events_data = []
     for event in hosted_events:
         event.total_going   = event.going_count
@@ -164,7 +166,8 @@ def my_events(request):
     # ---------------------------- Attending Events -------------------------------
     attendance_records = Attendance.objects.filter(
         user=user,
-        status__in=['going', 'can go']
+        status__in=['going', 'can go'],
+        event__in=Event.objects.upcomingEvent()
     ).exclude(event__host=user)
 
     attending_events_data = []
@@ -182,7 +185,8 @@ def my_events(request):
     # ---------------------------- Pending Invites --------------------------------
     pending_invites = EventInvite.objects.filter(
         to_user=user,
-        status='pending'
+        status='pending',
+         event__in=Event.objects.upcomingEvent()
     ).exclude(event__host=user)
 
     # Exclude events user has already attended/responded to
@@ -241,9 +245,9 @@ def event_detail(request, event_id):
     current_friends = user.profile.friends.all()
     #------------------------- Invited IDs ----------------------------#
     invited_ids = list(
-        EventInvite.objects
-                   .filter(event=event, from_user=user)
-                   .values_list('to_user', flat=True)
+    EventInvite.objects
+       .filter(event=event)
+       .values_list('to_user', flat=True)
     )
 
     #----------- Friends Going vs Inviteable Friends -----------------#
@@ -261,6 +265,31 @@ def event_detail(request, event_id):
         else:
             inviteable_friends.append(friend)
 
+    # Compute which inviteable friends already have a pending request from current user
+    pending_req_ids = InviteRequest.objects.filter(
+        event=event,
+        requested_by=user,
+        requested_user__in=[f.user for f in inviteable_friends]
+    ).values_list('requested_user__id', flat=True)
+
+    # Determine if current user can request invites (only on private events if host or already invited)
+    can_request = False
+    if not event.is_public and (
+        event.host == user or
+        EventInvite.objects.filter(event=event, to_user=user).exists()
+    ):
+        can_request = True
+
+    invite_requests = InviteRequest.objects.filter(event=event, requested_by=user)
+
+    #--------------------Pending invite requests-------------------------#
+    if user == event.host:
+        # “invite_requests_for_host” will be a QuerySet of InviteRequest objects
+        invite_requests_for_host = InviteRequest.objects.filter(event=event)
+    else:
+        # not the host, so give an empty list
+        invite_requests_for_host = InviteRequest.objects.none()
+
     #------------------------ Render Context -------------------------#
     context = {
         'event':              event,
@@ -268,6 +297,10 @@ def event_detail(request, event_id):
         'invited_ids':        invited_ids,
         'friends_list_going': friends_list_going,
         'inviteable_friends': inviteable_friends,
+        'invite_requests':    invite_requests,
+        'pending_req_ids':    set(pending_req_ids),
+        'can_request':        can_request,
+        'invite_requests_for_host': invite_requests_for_host,
     }
     return render(request, 'ETA/event_detail.html', context)
    
@@ -300,8 +333,13 @@ def friend_page(request):
 
     query = request.GET.get('q', '')
     results = []
-    if query:
-        results = User.objects.filter(username__icontains=query).exclude(id=request.user.id)
+    #Check length
+    if query and len(query) < 3:
+        messages.warning(request, "Please enter at least 3 characters to search.")
+    elif len(query) >= 3:
+        results = User.objects.filter(
+            username__icontains=query
+        ).exclude(id=request.user.id)
 
     friend_requests = request.user.friend_requests_received.all()
     current_friends = request.user.profile.friends.all()
@@ -321,7 +359,7 @@ from .models import FriendRequest
 def send_friend_request(request, to_user_id):
     to_user = get_object_or_404(User, id=to_user_id)
     if to_user != request.user:
-        fr, created = FriendRequest.objects.get_or_create(from_user=request.user, to_user=to_user)
+        created = FriendRequest.objects.get_or_create(from_user=request.user, to_user=to_user)
         if created:
             messages.success(request, "Friendrequest sent successfully.")
         else:
@@ -396,8 +434,9 @@ def send_event_invite(request, event_id, profile_id):
     friend_profile = get_object_or_404(request.user.profile.friends.all(), id=profile_id)
 
     if not event.is_public and request.user != event.host:
+        messages.warning(request, "Only hosts can invite to private events.")
         return redirect('event_detail', event_id=event.id)
-
+        
     invite, created = EventInvite.objects.get_or_create(
         event=event,
         from_user=request.user,
@@ -408,15 +447,83 @@ def send_event_invite(request, event_id, profile_id):
     if not created:
         invite.status = 'pending'
         invite.save()
+    return redirect('event_detail', event_id=event.id)
 
+#----------------------Request event invite------------------------#
+@login_required
+@require_POST
+def request_event_invite(request, event_id, friend_id):
+    event = get_object_or_404(Event, id=event_id)
+    me = request.user
+    friend = get_object_or_404(me.profile.friends, id=friend_id).user
+
+    #You must already be invited (or the host)
+    if not (event.host == me or EventInvite.objects.filter(event=event, to_user=me).exists()):
+        messages.error(request, "Only invited users can request more invites.")
+        return redirect('event_detail', event_id)
+
+    #Dont request if friend already invited
+    if EventInvite.objects.filter(event=event, to_user=friend).exists():
+        messages.info(request, f"{friend.username} is already invited.")
+        return redirect('event_detail', event_id)
+
+    #Dont re-request if you already asked
+    if InviteRequest.objects.filter(event=event,requested_by=me,requested_user=friend).exists():
+        messages.info(request, "You've already requested this invite.")
+        return redirect('event_detail', event_id)
+
+    #All is ok, then create request
+    InviteRequest.objects.create(
+        event=event,
+        requested_by=me,
+        requested_user=friend
+    )
+    messages.success(request, f"Invite request for {friend.username} sent to host.")
+    return redirect('event_detail', event_id)
+
+
+#---------------------------Accept / Decline invite request -----------------#
+#---------Accept---------#
+@login_required
+@require_POST
+def accept_invite_request(request, event_id, req_id):
+    req = get_object_or_404(InviteRequest, id=req_id, event__id=event_id)
+    EventInvite.objects.get_or_create(
+        event=req.event,
+        from_user=request.user,
+        to_user=req.requested_user,
+        defaults={'status': 'pending'}
+    )
+    req.delete()
+    messages.success(request, f"{req.requested_user.username} has been invited.")
+    return redirect('event_detail', event_id=event_id)
+
+#-------Decline------#
+@login_required
+@require_POST
+def decline_invite_request(request, event_id, req_id):
+    inv_req = get_object_or_404(
+        InviteRequest,
+        id=req_id,
+        event__id=event_id
+    )
+
+    #Not strictly needed since we only have the list pop up for hosts, but creates extra protection in backend
+    if request.user != inv_req.event.host:
+        messages.error(request, "Only the host can decline invitation requests.")
+        return redirect('event_detail', event_id=event_id)
+
+    inv_req.delete()
+    messages.success(request, f"Invitation request from {inv_req.requested_by.username} declined.")
+    return redirect('event_detail', event_id=event_id)
+#-----------------------Notification-------------------
     # Always notify if it's a private event, even if invite already exists
     if not event.is_public:
-        Notification.objects.create(
-            user=friend_profile.user,
-            message="You have been invited",
-            link=f"/event/{event.id}/"
-        )
-
+     Notification.objects.create(
+        user=friend_profile.user,
+        message="You have been invited",
+        link=f"/event/{event.id}/"
+    )
     return redirect('event_detail', event_id=event.id)
 
 
@@ -438,7 +545,6 @@ def view_notification(request, notif_id):
 #---------------------------------------------------------Profilepage--------------------------------------------------#
 @login_required
 def profilepage(request, username):
-    
     context = {
     }
     return render(request, 'ETA/profilepage.html', context)
