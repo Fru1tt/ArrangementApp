@@ -65,7 +65,7 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # Self-referential ManyToManyField for friend relationships.
     friends = models.ManyToManyField("self", blank=True, symmetrical=True)
-    bio = models.TextField(blank=True)
+    bio = models.TextField(blank=True, max_length=250)
     image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
 
     def __str__(self):

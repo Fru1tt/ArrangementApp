@@ -1,5 +1,62 @@
 {% extends "ETA/base.html" %}
-{% block title %}Friends{% endblock title %}
+{% load static %}
 
-{%load static %}
+{% block title %}User Profile{% endblock %}
 
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<div class="container">
+
+    <!-- Profile Picture -->
+
+    <div class="d-flex align-items-center mb-4">
+        {% if profile_user.profile.image and profile_user.profile.image.name %}
+            <img src="{{ profile_user.profile.image.url }}" alt="Profile Picture" class="rounded-circle mr-3" width="100" height="100">
+        {% else %}
+            <img src="{% static 'images/NPC.png' %}" alt="Default Profile Picture" class="rounded-circle mr-3" width="100" height="100">
+        {% endif %}
+        <h2 class="mb-0">{{ profile_user.username }}</h2>
+    </div>
+    
+<!-- Bio Section -->
+<div class="p-3 mb-4" style="border: 2px solid #b3d7ef; border-radius: 10px;">
+    <h4 style="color: #2c3e50;">About</h4>
+    <p class="mb-0">
+        {% if profile_user.profile.bio %}
+            {{ profile_user.profile.bio }}
+        {% else %}
+            Hello, I am {{ profile_user.username }}.
+        {% endif %}
+    </p>
+</div>
+
+    <!-- Add Friend Button -->
+<form method="POST" action="{% url 'send_friend_request' profile_user.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-primary d-flex flex-column align-items-center" style="border: none; background: none;">
+        <img src="{% static 'images/friend_request.png' %}" alt="Add Friend Icon" width="40" height="40">
+        <small class="mt-1">Add Friend</small>
+    </button>
+</form>
+
+
+<!-- line -->
+<hr style="border-top: 2px solid #b3d7ef; margin: 2rem 0;">
+
+    <!-- Hosted Events Section -->
+    <h3>Hosted Events</h3>
+    {% if hosted_events %}
+        <div class="row">
+            {% for event in hosted_events %}
+            {% include "ETA/partials/event_card.html" %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">This user has not hosted any events yet.</p>
+    {% endif %}
+
+<!-- line-->
+<hr style="border-top: 2px solid #b3d7ef; margin: 2rem 0;">
+
+</div>
+{% endblock %}
