@@ -20,7 +20,6 @@ urlpatterns = [
 
     path('attendance/update/', views.update_attendance, name='update_attendance'),
     path('manage-account/', views.manage_account, name='manage_account'),
-
     path('event/<int:event_id>/invite/<int:profile_id>/', views.send_event_invite, name='send_event_invite'),
     path('notifications/mark-all-read/', views.mark_all_notifications_read, name='mark_all_notifications_read'),
     path('notification/<int:notif_id>/', views.view_notification, name='view_notification'),
@@ -28,5 +27,7 @@ urlpatterns = [
     path('update-attendance/', views.update_attendance, name='update_attendance'),
 
     path("profilepage/<str:username>/", views.profilepage, name="profilepage"),
+
+    
 
 ]
