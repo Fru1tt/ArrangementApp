@@ -34,7 +34,15 @@ class PasswordChangeForm(forms.Form):
     new_password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm New Password")
 
 # forms.py
-class ProfileForm(forms.ModelForm):
+class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image', 'bio']
+        widgets = {
+            'image': forms.FileInput(attrs={'class': 'form-control-file'}),
+            'bio': forms.Textarea(attrs={
+                'rows': 5,
+                'class': 'form-control custom-bio',
+                'placeholder': 'Tell us about yourself...'
+            })
+        }

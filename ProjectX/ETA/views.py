@@ -11,6 +11,10 @@ from .models import Notification
 from django.views.decorators.http import require_POST
 from .algorithm import compute_aura_score
 from datetime import datetime
+from .models import Profile
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+
 
 User = get_user_model()
 
@@ -403,29 +407,51 @@ def update_attendance(request):
     return redirect('event_detail', event_id=event.id)
 
  #-----------------------------Manage account----------------------#
+
 @login_required
 def manage_account(request):
-    # Ensure a profile exists for the user; create one if it doesn't.
-    profile, created = Profile.objects.get_or_create(user=request.user)
-    
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+
+    form = ProfileUpdateForm(
+        request.POST or None,
+        request.FILES or None,
+        instance=profile
+    )
+
+    password_form = PasswordChangeForm(user=request.user, data=request.POST or None)
+
     if request.method == 'POST':
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
-        if profile_form.is_valid():
-            profile_form.save()
-            messages.success(request, 'Your profile picture has been updated successfully!')
+        action = request.POST.get("action")
+
+        if 'image-clear' in request.POST:
+            profile.image.delete(save=False)
+            profile.image = None
+
+        if action == "update_profile" and form.is_valid():
+            form.save()
+            messages.success(request, "Your profile was updated")
             return redirect('manage_account')
+
+        elif action == "update_password" and password_form.is_valid():
+            password_form.save()
+            update_session_auth_hash(request, password_form.user)
+            messages.success(request, "Your password was updated")
+            return redirect('manage_account')
+
         else:
-            # Show all field errors
-            for field, errors in profile_form.errors.items():
-                for err in errors:
-                    messages.error(request, f"{field}: {err}")
-            # Show non-field errors
-            for err in profile_form.non_field_errors():
-                messages.error(request, err)
-    else:
-        profile_form = ProfileUpdateForm(instance=profile)
-    
-    return render(request, 'ETA/manage_account.html', {'profile_form': profile_form})
+            for field, errs in form.errors.items():
+                for e in errs:
+                    messages.error(request, f"{field}: {e}")
+            for field, errs in password_form.errors.items():
+                for e in errs:
+                    messages.error(request, f"{field}: {e}")
+
+    return render(request, 'ETA/manage_account.html', {
+        'form': form,
+        'password_form': password_form,
+    })
+
+
 
 #-----------------------------Event invite----------------------#
 @login_required
@@ -545,6 +571,19 @@ def view_notification(request, notif_id):
 #---------------------------------------------------------Profilepage--------------------------------------------------#
 @login_required
 def profilepage(request, username):
+    profile_user = get_object_or_404(User, username=username)
+    hosted_events = Event.objects.filter(host=profile_user)
+
+    for event in hosted_events:
+        event.total_going = event.going_count
+        event.friends_going = (
+            event.friends_going_count(request.user)
+            if request.user.is_authenticated
+            else 0
+        )
+    
     context = {
+        'profile_user': profile_user,
+        'hosted_events': hosted_events
     }
     return render(request, 'ETA/profilepage.html', context)
