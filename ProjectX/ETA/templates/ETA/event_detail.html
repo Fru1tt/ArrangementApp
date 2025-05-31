@@ -10,20 +10,20 @@
   <!-- Left Column: Main Event Card -->
   <div class="col-md-8 mb-4">
     <div class="card">
-      <!-- Image + Overlay Title -->
+      <!----------------------------- Image + Overlay Title ----------------------->
       <div class="event-detail-image-container">
         {% if event.image %}
           <img src="{{ event.image.url }}" class="event-detail-image" alt="{{ event.title }}">
         {% else %}
           <img src="{% static 'images/static-event.png'%}" class="event-detail-image" alt="No image">
         {% endif %}
-        <!-- Overlay Title -->
+        <!-------------------- Overlay Title -------------------->
         <h1 class="event-title-overlay">{{ event.title }}</h1>
       </div>
 
       <div class="card-body">
         <div class="d-flex align-items-stretch mb-3">
-          <!-- Host Card -->
+          <!--------------------- Host Card -------------------->
           <div class="host-card mb-0 mr-2 d-flex align-items-center">
             <a href="{% url 'profilepage' event.host.username %}"
                class="d-flex align-items-center text-decoration-none w-100">
@@ -43,7 +43,7 @@
             </a>
           </div>
         
-          <!-- Friends Going -->
+          <!-------------- Friends Going --------------------->
           <div class="count-card mb-0 mr-2 d-flex flex-column justify-content-center align-items-center">
             <small class="text-muted">Friends going</small>
             <div class="d-flex align-items-center mb-1">
@@ -54,7 +54,7 @@
 
           </div>
         
-          <!-- Total Going -->
+          <!------------- Total Going --------------->
           <div class="count-card mb-0 mr-2 d-flex flex-column justify-content-center align-items-center">
             <small class="text-muted">Total going</small>
             <div class="d-flex align-items-center mb-1">
@@ -65,7 +65,7 @@
 
           </div>
         
-          <!-- Date & Time -->
+          <!------------------------------- Date & Time ---------------------------------->
           <div class="count-card mb-0 d-flex flex-column justify-content-center align-items-center">
             <small class="text-muted">Date and time</small>
             <div class="d-flex align-items-center mb-1">
@@ -83,9 +83,8 @@
           </div>
         </div>
         
-<!-- Attendance buttons + Map side by side -->
 <div class="row align-items-start mb-4">
-  <!-- Attendance -->
+  <!--------------------------------- Attendance -------------------------------->
   <div class="col-auto">
     <div class="status-wrapper p-3">
       <form method="post" action="{% url 'update_attendance' %}" class="d-flex">
@@ -112,7 +111,7 @@
     </div>
   </div>
 
-  <!-- Map -->
+  <!--------------------- Map ----------------------->
   <div class="col">
     {% if event.location %}
       <div class="map-box">
@@ -125,7 +124,7 @@
     {% endif %}
   </div>
 </div>
-  <!-- Event Description -->
+  <!---------------------------- Event Description ---------------------------------->
    <h3>More About the Event</h3>
   <p class="card-text">{{ event.description }}</p>
 
@@ -146,34 +145,74 @@
       </div>
     </div>
   </div>
-
- <!-- Right Column: Invitations / Other Info -->
 <div class="col-md-4 mb-4">
-  <!-- Friends Going Card -->
-  {% if friends_list_going %}
-    <div class="card mb-3">
-      <div class="card-header">Friends Going</div>
+
+    <!------------------------------------------ Invite requests if any ------------------------------------>
+    {% if invite_requests_for_host and invite_requests_for_host.exists %}
+  <div class="card mb-3">
+    <div class="card-header">Invitation Requests</div>
+    <div class="card-body p-0" style="max-height: 300px; overflow-y: auto;">
       <ul class="list-group list-group-flush">
-        {% for friend in friends_list_going %}
-          <li class="list-group-item d-flex align-items-center">
-            {% if friend.image %}
-              <img src="{{ friend.image.url }}" alt="{{ friend.user.username }}" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
-            {% else %}
-              <img src="{% static 'images/NPC.png' %}" alt="Default" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
-            {% endif %}
-            {{ friend.user.username }}
+        {% for req in invite_requests_for_host %}
+          <li class="list-group-item d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              {% if req.requested_user.profile.image %}
+                <img src="{{ req.requested_user.profile.image.url }}" alt="{{ req.requested_user.username }}’s picture" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
+              {% else %}
+                <img src="{% static 'images/NPC.png' %}" alt="Default avatar" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
+              {% endif %}
+
+            <span>{{ req.requested_user.username }}</span>
+            </div>
+            <div class="d-flex align-items-center">
+              {# ACCEPT button #}
+              <form method="post" action="{% url 'accept_invite_request' event.id req.id %}" class="mr-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link p-0" style="line-height: 1;">
+                  <img src="{% static 'images/accept.png' %}" alt="Accept" width="24" height="24">
+                </button>
+              </form>
+            
+              <form method="post" action="{% url 'decline_invite_request' req.event.id req.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link p-0" style="line-height:1;">
+                <img src="{% static 'images/decline.png' %}" alt="Decline" width="24" height="24">
+              </button>
+            </form>
           </li>
         {% endfor %}
       </ul>
+    </div>
+  </div>
+{% endif %}
+
+  <!------------------------------------------ Friends Going Card ------------------------------------>
+  {% if friends_list_going %}
+    <div class="card mb-3">
+      <div class="card-header">Friends Going</div>
+      <div class="card-body p-0" style="max-height: 300px; overflow-y: auto;">
+        <ul class="list-group list-group-flush">
+          {% for friend in friends_list_going %}
+            <li class="list-group-item d-flex align-items-center">
+              {% if friend.image %}
+                <img src="{{ friend.image.url }}" alt="{{ friend.user.username }}" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
+              {% else %}
+                <img src="{% static 'images/NPC.png' %}" alt="Default" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
+              {% endif %}
+              {{ friend.user.username }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   {% else %}
     <p>No friends have joined yet.</p>
   {% endif %}
 
-  <!-- Invite Friends Card -->
-  <div class="card">
+   <!------------------------------- Invite Friends Card ------------------------------------>
+   <div class="card">
     <div class="card-header">Invite Friends</div>
-    <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+    <div class="card-body px-0" style="max-height: 300px; overflow-y: auto;">
       {% if inviteable_friends %}
         <ul class="list-group">
           {% for friend in inviteable_friends %}
@@ -183,14 +222,32 @@
                   <img src="{{ friend.image.url }}" alt="{{ friend.user.username }}'s picture"
                        class="rounded-circle mr-2" style="width:40px; height:40px;">
                 {% else %}
-                  <img src="{% static 'images/NPC.png'%}" alt="Default" class="rounded-circle mr-2" style="width: 40px; height: 40px; object-fit: cover;">
+                  <img src="{% static 'images/NPC.png' %}" alt="Default"
+                       class="rounded-circle mr-2" style="width:40px; height:40px; object-fit:cover;">
                 {% endif %}
                 {{ friend.user.username }}
               </div>
+
+              <!--If user is already invited, it shows Invited-->
               {% if friend.user.id in invited_ids %}
                 <span class="text-muted">Invited</span>
+
+              <!--If user is already requested invite, it shows Requested-->
+              {% elif friend.user.id in pending_req_ids %}
+                <span class="text-muted">Requested</span>
+
+             <!--If its a private event, and you are not the host, it shows request invite-->
+              {% elif not event.is_public and user != event.host %}
+                <form method="post" action="{% url 'request_event_invite' event.id friend.id %}"
+                      style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-request">Request Invite</button>
+                </form>
+
+              <!--Otherwise, if it is public or youre the host, shows invite-->
               {% else %}
-                <form method="post" action="{% url 'send_event_invite' event.id friend.id %}" style="display:inline;">
+                <form method="post" action="{% url 'send_event_invite' event.id friend.id %}"
+                      style="display:inline;">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-primary btn-sm">Invite</button>
                 </form>
@@ -203,5 +260,4 @@
       {% endif %}
     </div>
   </div>
-</div>
 {% endblock content %}

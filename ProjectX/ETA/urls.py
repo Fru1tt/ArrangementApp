@@ -27,7 +27,9 @@ urlpatterns = [
     path('update-attendance/', views.update_attendance, name='update_attendance'),
 
     path("profilepage/<str:username>/", views.profilepage, name="profilepage"),
-
     
-
+    path('event/<int:event_id>/request-invite/<int:friend_id>/', views.request_event_invite,name='request_event_invite'),
+    
+    path('event/<int:event_id>/invite_request/<int:req_id>/accept/',views.accept_invite_request,name='accept_invite_request'),
+    path('event/<int:event_id>/invite_request/<int:req_id>/decline/',views.decline_invite_request,name='decline_invite_request'),
 ]

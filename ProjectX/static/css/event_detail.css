@@ -176,3 +176,12 @@
   border-radius: 0.5rem;
   overflow: hidden;
 }
+
+.btn-request {
+  background-color: #c2dfe9;
+  border: none;
+  color: #1d1e1f;;         
+}
+.btn-request:hover {
+  background-color: #9ACCE0;
+}
