@@ -572,9 +572,18 @@ def view_notification(request, notif_id):
 @login_required
 def profilepage(request, username):
     profile_user = get_object_or_404(User, username=username)
-    hosted_events = Event.objects.filter(host=profile_user)
+    hosted_events = Event.objects.upcomingEvent().filter(host=profile_user)
+    pastEvent = Event.objects.pastEvent().filter(host=profile_user)
 
     for event in hosted_events:
+        event.total_going = event.going_count
+        event.friends_going = (
+            event.friends_going_count(request.user)
+            if request.user.is_authenticated
+            else 0
+        )
+
+    for event in pastEvent:
         event.total_going = event.going_count
         event.friends_going = (
             event.friends_going_count(request.user)
@@ -584,6 +593,39 @@ def profilepage(request, username):
     
     context = {
         'profile_user': profile_user,
-        'hosted_events': hosted_events
+        'hosted_events': hosted_events,
+        'pastEvent': pastEvent
     }
     return render(request, 'ETA/profilepage.html', context)
+
+#------------------Delete-event---------------------------#
+@login_required
+def delete_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id, host=request.user)
+
+    if request.method == 'POST':
+        event.delete()
+        messages.success(request, "Event deleted successfully.")
+        return redirect('my_events')  # Go to list of your events
+
+    messages.error(request, "Invalid request method.")
+    return redirect('event_detail', event_id=event.id)  # Not 'event_edit'
+
+@login_required
+def remove_friend(request, user_id):
+    to_user = get_object_or_404(User, id=user_id)
+
+    if request.method == 'POST':
+        if to_user.profile in request.user.profile.friends.all():
+            request.user.profile.friends.remove(to_user.profile)
+            to_user.profile.friends.remove(request.user.profile)
+            messages.success(request, f"{to_user.username} has been removed from your friends.")
+        else:
+            messages.warning(request, f"{to_user.username} is not your friend.")
+    else:
+        messages.error(request, "Invalid request method.")
+
+    return redirect('friend_page')
+
+
+

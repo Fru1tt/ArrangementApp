@@ -31,14 +31,16 @@
 </div>
 
     <!-- Add Friend Button -->
-<form method="POST" action="{% url 'send_friend_request' profile_user.id %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-outline-primary d-flex flex-column align-items-center" style="border: none; background: none;">
-        <img src="{% static 'images/friend_request.png' %}" alt="Add Friend Icon" width="40" height="40">
-        <small class="mt-1">Add Friend</small>
-    </button>
-</form>
-
+    {% if request.user.username != profile_user.username %}
+    <form method="POST" action="{% url 'send_friend_request' profile_user.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-primary d-flex flex-column align-items-center" style="border: none; background: none;">
+            <img src="{% static 'images/friend_request.png' %}" alt="Add Friend Icon" width="40" height="40">
+            <small class="mt-1">Add Friend</small>
+        </button>
+    </form>
+  {% endif %}
+  
 
 <!-- line -->
 <hr style="border-top: 2px solid #b3d7ef; margin: 2rem 0;">
@@ -57,6 +59,17 @@
 
 <!-- line-->
 <hr style="border-top: 2px solid #b3d7ef; margin: 2rem 0;">
+
+<h3>Past Events</h3>
+    {% if pastEvent %}
+        <div class="row">
+            {% for event in pastEvent %}
+            {% include "ETA/partials/event_card.html" %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">This user has not hosted any events yet.</p>
+    {% endif %}
 
 </div>
 {% endblock %}
