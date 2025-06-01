@@ -4,11 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.http import HttpResponseForbidden  
-from .models import Event, FriendRequest, Profile, Attendance, EventInvite, InviteRequest 
+from .models import Event, FriendRequest, Profile, Attendance, EventInvite, InviteRequest, TagCategory, Tag
 from .forms import EventForm, ProfileUpdateForm
 from django.contrib.auth import get_user_model
 from .models import Notification
 from django.views.decorators.http import require_POST
+from django.db.models import Count, Q
 from .algorithm import compute_aura_score
 from datetime import datetime
 from .models import Profile
@@ -24,9 +25,30 @@ def event_list(request):
 
     #---------------------- Fetch Public Events ----------------------#
     events = Event.objects.upcomingEvent().filter(is_public=True).order_by('start_date')
+    categories = (TagCategory.objects.annotate(num_tags=Count('tags')).order_by('num_tags', 'name').prefetch_related('tags'))
 
-    #---------------------- Upcoming Events Data ----------------------#
-    public_events = events.exclude(host=user) if user.is_authenticated else events
+    #---------------------- Upcoming Events Data with Tag Filter ----------------------#
+    selected_tag_ids = request.GET.getlist('tags') #Read selected tag IDs from GET parameters
+    try:
+        selected_tag_ids = [int(pk) for pk in selected_tag_ids]
+    except ValueError:
+        selected_tag_ids = []
+
+    filtered_events = events
+    if selected_tag_ids:
+        filtered_events = filtered_events.filter(tags__id__in=selected_tag_ids).distinct() # Filter by tags
+
+    #----------Date filter-----------#
+    filter_date = request.GET.get('filter_date')
+    if filter_date:
+        filtered_events = filtered_events.filter(
+         Q(start_date__date__gte=filter_date)
+        |Q(start_date__date__lte=filter_date, end_date__date__gte=filter_date)
+    )
+
+    public_events = filtered_events.exclude(host=user) if user.is_authenticated else filtered_events  # Exclude events hosted by the logged-in user
+
+
     events_data = []
     for event in public_events:
         attendance = (
@@ -44,7 +66,7 @@ def event_list(request):
 
         events_data.append({
             'event': event,
-        'attendance': attendance,
+            'attendance': attendance,
         })
 
     #---------------------- Preparing Friend IDs ----------------------#
@@ -104,6 +126,8 @@ def event_list(request):
     context = {
         'events_with_attendance': events_data,
         'trending_events':        trending_events,
+        'categories':             categories,
+        'selected_tag_ids':       selected_tag_ids,
     }
     return render(request, 'ETA/home.html', context)
 
