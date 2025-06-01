@@ -33,6 +33,7 @@ class Event(models.Model):
     image = models.ImageField(upload_to='event_images/', null=True, blank=True)
     location = models.CharField(max_length=255, blank=True, help_text="Enter a street address or place name")
     objects = EventQuerySet.as_manager()
+    tags = models.ManyToManyField('Tag', blank=True)
 
 #----Small logic that makes sure the start date is before the end date
     def clean(self):
@@ -60,6 +61,24 @@ class Event(models.Model):
     def __str__(self):
         return self.title
     
+#---------------------------------Tags / Categories for events for filtering logic -------------------------#
+class TagCategory(models.Model):
+    name = models.CharField(max_length=30, unique=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+class Tag(models.Model):
+    name = models.CharField(max_length=30)
+    category = models.ForeignKey(TagCategory,on_delete=models.CASCADE, related_name="tags" )
+    class Meta:
+        ordering = ["category__name", "name"]
+        
+    def __str__(self):
+        return f"{self.category.name} - {self.name}"
+    
+
+
     #---------------------------Extending the User Model with a Profile--------------------------------#
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -150,3 +169,4 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.user.username}: {self.message}"
+

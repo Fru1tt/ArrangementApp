@@ -1,63 +1,65 @@
+/* --- Event image layout --- */
 .event-detail-image-container {
-    width: 100%;
-    height: 400px;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .event-detail-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .event-title-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    padding: 5px 10px;
-    margin: 0;
-    font-size: 60;
- 
-  }
+  width: 100%;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+}
 
-  .host-card {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    background-color: #eef6ff;
-    border: 1px solid #586d82;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .host-card .host-avatar {
-    width: 48px;
-    height: 48px;
-    object-fit: cover;
-    margin-right: 0.75rem;
-    border: 2px solid #586d82;
-  }
-  
-  .host-card .host-info small {
-    color: #6c757d;
-    font-size: 0.75rem;
-  }
-  
-  .host-card .host-info strong {
-    font-size: 1rem;
-    line-height: 1.2;
-  }
-  
+.event-detail-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.event-title-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 5px 10px;
+  margin: 0;
+  font-size: 60;
+}
+
+/* --- Host Info --- */
+.host-card {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #eef6ff;
+  border: 1px solid #586d82;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.host-card .host-avatar {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  margin-right: 0.75rem;
+  border: 2px solid #586d82;
+}
+
+.host-card .host-info small {
+  color: #6c757d;
+  font-size: 0.75rem;
+}
+
+.host-card .host-info strong {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
 .host-card.mb-0 {
   margin-bottom: 0;
 }
 
+/* --- Stats & Counts --- */
 .count-card {
   display: flex;
   align-items: center;
@@ -81,6 +83,7 @@
   line-height: 1;
 }
 
+/* --- Time & Status --- */
 .time-card {
   padding: 0.75rem 1rem;
   background-color: #eef6ff;
@@ -137,6 +140,7 @@
   margin-left: 0.5rem;
 }
 
+/* --- Buttons --- */
 .outline-btn {
   background-color: white;
   color: #2780e3;
@@ -159,17 +163,17 @@
   color:           white;
 }
 
-.status-form .btn + .btn {
-  margin-left: 0.5rem;
+/* --- Request Button --- */
+.btn-request {
+  background-color: #c2dfe9;
+  border: none;
+  color: #1d1e1f;
+}
+.btn-request:hover {
+  background-color: #9ACCE0;
 }
 
-.status-wrapper {
-  background-color: #eef6ff;
-  border: 1px solid #586d82;
-  border-radius: 0.5rem;
-}
-
-/* fixed-height, rounded iframe container */
+/* --- Map box --- */
 .map-box {
   height: 230px;
   border: 1px solid #586d82;
@@ -177,11 +181,104 @@
   overflow: hidden;
 }
 
-.btn-request {
-  background-color: #c2dfe9;
-  border: none;
-  color: #1d1e1f;;         
+/* --- Visibility toggle buttons --- */
+input[type="radio"]:checked + label {
+  background-color: #e6f4ff !important;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);
 }
-.btn-request:hover {
-  background-color: #9ACCE0;
+
+.visibility-option {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 10px 16px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: 2px solid #1e98ad;
+  border-radius: 8px;
+  background-color: white;
+  text-align: center;
+}
+
+input[type="radio"]:checked + label {
+  box-shadow: 0 0 0 3px rgba(30, 152, 173, 0.3);
+}
+
+/* Text and icon */
+.visibility-option span {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #1e98ad;
+}
+
+input#public:checked + label {
+  border-color: #1e98ad;
+}
+
+input#private:checked + label {
+  border-color: #1e98ad;
+}
+
+input#public:checked + label span,
+input#private:checked + label span {
+  color: #1e98ad;
+}
+
+/* Save button: flat bright blue style */
+.ugoing-flat-blue {
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 24px;
+  text-align: center;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.ugoing-flat-blue:hover {
+  background-color: #0069d9;
+  color: white;
+}
+
+/* Cancel button: simple, clean link look */
+.ugoing-flat-cancel {
+  background-color: transparent;
+  color: #007bff;
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.ugoing-flat-cancel:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #0056b3;
+  text-decoration: none;
+}
+
+.ugoing-delete-btn {
+  background-color: #f8d7da;
+  color: #721c24;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.ugoing-delete-btn:hover {
+  background-color: #f1b0b7;
+  color: #721c24;
+}
+
+.delete-icon {
+  width: 20px;
+  height: 20px;
 }

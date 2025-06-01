@@ -1,17 +1,50 @@
 {% extends "ETA/base.html" %}
+{% load crispy_forms_tags %}
 
-{% block title %}Login{% endblock title %}
+{% block title %}Login{% endblock %}
+
+{% block extra_css %}
+<style>
+  .card-header {
+    background-color: #23A4DC;
+    color: white;
+  }
+
+  .card-body {
+    background-color: #f8f9fa;
+  }
+
+  .btn-login {
+    background-color: #23A4DC;
+    border-color: #23A4DC;
+    color: white;
+  }
+
+  .btn-login:hover {
+    background-color: #1d90c6;
+    border-color: #1d90c6;
+  }
+</style>
+{% endblock extra_css %}
 
 {% block content %}
-
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-    <p class="mt-3">
-        Don't have an account? <a href="{% url 'register' %}">Register here</a>.
-    </p>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">Welcome Back</h4>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit" class="btn btn-login btn-block">Login</button>
+        </form>
+        <div class="text-center mt-3">
+          <small>Don't have an account? <a href="{% url 'register' %}">Register here</a>.</small>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-{% endblock content %}
+{% endblock %}

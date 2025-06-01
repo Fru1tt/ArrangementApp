@@ -32,4 +32,8 @@ urlpatterns = [
     
     path('event/<int:event_id>/invite_request/<int:req_id>/accept/',views.accept_invite_request,name='accept_invite_request'),
     path('event/<int:event_id>/invite_request/<int:req_id>/decline/',views.decline_invite_request,name='decline_invite_request'),
+
+    path('event/<int:event_id>/delete/', views.delete_event, name='delete_event'),
+    path('friends/remove/<int:user_id>/', views.remove_friend, name='remove_friend'),
+
 ]

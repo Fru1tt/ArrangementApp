@@ -64,6 +64,7 @@
                             {{ user.username }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'profilepage' user.username %}">View Profile</a>
                             <a class="dropdown-item" href="{% url 'manage_account' %}">Manage Account</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
