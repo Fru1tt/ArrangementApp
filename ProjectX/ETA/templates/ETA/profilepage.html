@@ -8,7 +8,6 @@
 <div class="container">
 
     <!-- Profile Picture -->
-
     <div class="d-flex align-items-center mb-4">
         {% if profile_user.profile.image and profile_user.profile.image.name %}
             <img src="{{ profile_user.profile.image.url }}" alt="Profile Picture" class="rounded-circle mr-3" width="100" height="100">
@@ -17,18 +16,18 @@
         {% endif %}
         <h2 class="mb-0">{{ profile_user.username }}</h2>
     </div>
-    
-<!-- Bio Section -->
-<div class="p-3 mb-4" style="border: 2px solid #b3d7ef; border-radius: 10px;">
-    <h4 style="color: #2c3e50;">About</h4>
-    <p class="mb-0">
-        {% if profile_user.profile.bio %}
-            {{ profile_user.profile.bio }}
-        {% else %}
-            Hello, I am {{ profile_user.username }}.
-        {% endif %}
-    </p>
-</div>
+
+    <!-- Bio Section -->
+    <div class="p-3 mb-4" style="border: 2px solid #b3d7ef; border-radius: 10px;">
+        <h4 style="color: #2c3e50;">About</h4>
+        <p class="mb-0">
+            {% if profile_user.profile.bio %}
+                {{ profile_user.profile.bio }}
+            {% else %}
+                Hello, I am {{ profile_user.username }}.
+            {% endif %}
+        </p>
+    </div>
 
     <!-- Add Friend Button -->
     {% if request.user.username != profile_user.username %}
@@ -39,32 +38,40 @@
             <small class="mt-1">Add Friend</small>
         </button>
     </form>
-  {% endif %}
-  
+    {% endif %}
 
-<!-- line -->
-<hr style="border-top: 2px solid #b3d7ef; margin: 2rem 0;">
+    <!-- line -->
+    <hr style="border-top: 2px solid #b3d7ef; margin: 2rem 0;">
 
     <!-- Hosted Events Section -->
     <h3>Hosted Events</h3>
     {% if hosted_events %}
         <div class="row">
-            {% for event in hosted_events %}
-            {% include "ETA/partials/event_card.html" %}
+            {% for item in hosted_events %}
+                {% with item.event as event %}
+                    {% with item.attendance as attendance %}
+                        {% include "ETA/partials/event_card.html" %}
+                    {% endwith %}
+                {% endwith %}
             {% endfor %}
         </div>
     {% else %}
         <p class="text-muted">This user has not hosted any events yet.</p>
     {% endif %}
 
-<!-- line-->
-<hr style="border-top: 2px solid #b3d7ef; margin: 2rem 0;">
+    <!-- line -->
+    <hr style="border-top: 2px solid #b3d7ef; margin: 2rem 0;">
 
-<h3>Past Events</h3>
+    <!-- Past Events Section -->
+    <h3>Past Events</h3>
     {% if pastEvent %}
         <div class="row">
-            {% for event in pastEvent %}
-            {% include "ETA/partials/event_card.html" %}
+            {% for item in pastEvent %}
+                {% with item.event as event %}
+                    {% with item.attendance as attendance %}
+                        {% include "ETA/partials/event_card.html" %}
+                    {% endwith %}
+                {% endwith %}
             {% endfor %}
         </div>
     {% else %}
