@@ -633,7 +633,7 @@ def profilepage(request, username):
     context = {
         'profile_user': profile_user,
         'hosted_events': hosted_events_data,
-        'pastEvent': past_events_data,  # renamed to stay consistent with attendance-based structure
+        'pastEvent': past_events_data,
     }
 
     return render(request, 'ETA/profilepage.html', context)
@@ -649,7 +649,7 @@ def delete_event(request, event_id):
         return redirect('my_events')  # Go to list of your events
 
     messages.error(request, "Invalid request method.")
-    return redirect('event_detail', event_id=event.id)  # Not 'event_edit'
+    return redirect('event_detail', event_id=event.id)
 
 @login_required
 def remove_friend(request, user_id):

@@ -5,9 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-
 from django.utils import timezone
-from datetime import timedelta
 
 User = get_user_model()
 
@@ -77,12 +75,9 @@ class Tag(models.Model):
     def __str__(self):
         return f"{self.category.name} - {self.name}"
     
-
-
     #---------------------------Extending the User Model with a Profile--------------------------------#
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # Self-referential ManyToManyField for friend relationships.
     friends = models.ManyToManyField("self", blank=True, symmetrical=True)
     bio = models.TextField(blank=True, max_length=250)
     image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
@@ -125,7 +120,6 @@ class Attendance(models.Model):
         unique_together = ('user', 'event')
     
     def __str__(self):
-        # Display something meaningful, e.g., "carlgrude1 -> Sluttsfjell (Going)"
         return f"{self.user.username} -> {self.event.title} ({self.status})"
 
 
@@ -155,7 +149,6 @@ class InviteRequest(models.Model):
     requested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_invite_requests')
     requested_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_invite_requests')
     timestamp = models.DateTimeField(auto_now_add=True)
-
     class Meta:
         unique_together = ('event','requested_by','requested_user')
 
