@@ -11,7 +11,6 @@ from django.views.decorators.http import require_POST
 from django.db.models import Count, Q
 from .algorithm import compute_aura_score
 from datetime import datetime
-from .models import Profile
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
