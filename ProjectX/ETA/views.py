@@ -590,12 +590,6 @@ def decline_invite_request(request, event_id, req_id):
     return redirect('event_detail', event_id=event_id)
 
 #---------------------------------------------------------Profilepage--------------------------------------------------#
-#---------------------------------------------------------Profilepage--------------------------------------------------#
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.models import User
-from .models import Event, Attendance
-
 @login_required
 def profilepage(request, username):
     profile_user = get_object_or_404(User, username=username)
