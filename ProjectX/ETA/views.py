@@ -593,33 +593,58 @@ def view_notification(request, notif_id):
 
 
 #---------------------------------------------------------Profilepage--------------------------------------------------#
+#---------------------------------------------------------Profilepage--------------------------------------------------#
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
+from .models import Event, Attendance
+
 @login_required
 def profilepage(request, username):
     profile_user = get_object_or_404(User, username=username)
-    hosted_events = Event.objects.upcomingEvent().filter(host=profile_user)
-    pastEvent = Event.objects.pastEvent().filter(host=profile_user)
 
+    # ---------------------------- Upcoming Events Hosted by Profile User ----------------------------
+    hosted_events = Event.objects.upcomingEvent().filter(host=profile_user).order_by('start_date')
+
+    hosted_events_data = []
     for event in hosted_events:
-        event.total_going = event.going_count
-        event.friends_going = (
-            event.friends_going_count(request.user)
-            if request.user.is_authenticated
-            else 0
-        )
+        try:
+            attendance = Attendance.objects.get(user=request.user, event=event)
+        except Attendance.DoesNotExist:
+            attendance = None
 
-    for event in pastEvent:
         event.total_going = event.going_count
-        event.friends_going = (
-            event.friends_going_count(request.user)
-            if request.user.is_authenticated
-            else 0
-        )
-    
+        event.friends_going = event.friends_going_count(request.user)
+
+        hosted_events_data.append({
+            'event': event,
+            'attendance': attendance,
+        })
+
+    # ---------------------------- Past Events Hosted by Profile User ----------------------------
+    past_events = Event.objects.pastEvent().filter(host=profile_user).order_by('-end_date')
+
+    past_events_data = []
+    for event in past_events:
+        try:
+            attendance = Attendance.objects.get(user=request.user, event=event)
+        except Attendance.DoesNotExist:
+            attendance = None
+
+        event.total_going = event.going_count
+        event.friends_going = event.friends_going_count(request.user)
+
+        past_events_data.append({
+            'event': event,
+            'attendance': attendance,
+        })
+
     context = {
         'profile_user': profile_user,
-        'hosted_events': hosted_events,
-        'pastEvent': pastEvent
+        'hosted_events': hosted_events_data,
+        'pastEvent': past_events_data,  # renamed to stay consistent with attendance-based structure
     }
+
     return render(request, 'ETA/profilepage.html', context)
 
 #------------------Delete-event---------------------------#

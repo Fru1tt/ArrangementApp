@@ -78,11 +78,26 @@
             {{ form.description.label_tag }}
             {{ form.description }}
           </div>
-        
-          <!-- Public checkbox -->
-          <div class="form-check mb-3">
-            {{ form.is_public }} {{ form.is_public.label_tag }}
+          
+          <!-- Public/Private toggle buttons -->
+          <div class="form-group mb-3">
+            <label class="d-block">Event Visibility</label>
+
+            <input type="radio" class="d-none" name="is_public" id="public" value="true"
+                  {% if form.is_public.value %}checked{% endif %}>
+            <label for="public" class="visibility-option">
+              <img src="{% static 'images/public.png' %}" alt="Public" style="width: 30px; vertical-align: middle;">
+              <span class="ml-2">Public</span>
+            </label>
+
+            <input type="radio" class="d-none" name="is_public" id="private" value="false"
+                  {% if not form.is_public.value %}checked{% endif %}>
+            <label for="private" class="visibility-option">
+              <img src="{% static 'images/private.png' %}" alt="Private" style="width: 30px; vertical-align: middle;">
+              <span class="ml-2">Private</span>
+            </label>
           </div>
+
 
           <!-- Submit -->
           <button type="submit" class="btn btn-success">Create Event</button>
