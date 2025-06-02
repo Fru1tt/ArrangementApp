@@ -16,7 +16,11 @@
 
 <!-- Trending Events Section ("What's Hot") -->
 <div class="section-wrapper mb-3"></div>
-<h2 class="mb-4">What's Hot 🔥</h2>
+<div class="d-flex align-items-center mb-4">
+  <img src="{% static 'images/whatshot.png' %}"
+       width="36" height="36" alt="What’s Hot icon" class="mr-2">
+  <h2 class="mb-0">What's Hot</h2>
+</div>
 <div class="horizontal-scroll-container">
   {% for item in trending_events %}
     {% with event=item.event attendance=item.attendance %}
@@ -30,7 +34,7 @@
 
 <!-- Upcoming Events Section -->
 <div class="section-wrapper">
-<h2 class="mb-4">Upcoming Events </h2>
+<h2 class="mb-4 mt-4">Upcoming Events </h2>
 
   <!-- Event TAG Filters -->
   <form method="get" action="{% url 'home' %}" class="mb-4">
@@ -44,7 +48,7 @@
       <!------Tag filter---->
       {% for category in categories %}
       <div class="dropdown mr-3 mb-2">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown-{{ category.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-outline-primary dropdown-toggle mt-4" type="button" id="dropdown-{{ category.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{ category.name }}
         </button>
         <div class="dropdown-menu p-3" aria-labelledby="dropdown-{{ category.id }}">

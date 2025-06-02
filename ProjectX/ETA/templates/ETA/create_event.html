@@ -42,6 +42,8 @@
             {% endif %}
           </div>
 
+          <hr class="my-2">
+
           <!-- Date & Time -->
           <div class="d-flex align-items-center mb-3">
             <div class="form-group mr-2">
@@ -53,7 +55,7 @@
               {{ form.end_date }}
             </div>
           </div>
-
+          <hr class="my-2">
           <!-- Location -->
           <div class="form-group">
             {{ form.location.label_tag }}
@@ -72,12 +74,37 @@
               allowfullscreen>
             </iframe>
           </div>
-
+          <hr class="my-2">
           <!-- Description -->
           <div class="form-group">
             {{ form.description.label_tag }}
             {{ form.description }}
           </div>
+
+ <!-- Tags Grouped by Category -->
+ <div class="form-group">
+  <label>Tags</label>
+  <hr class="my-2">
+  {% for category in categories %}
+    <div class="mb-3">
+      <strong>{{ category.name }}</strong>
+      <div class="d-flex flex-wrap">
+        {% for tag in category.tags.all %}
+          <div class="form-check form-check-inline mb-1">
+            <input class="form-check-input" type="checkbox" name="tags" id="tag-{{ tag.id }}" value="{{ tag.id }}" {% if tag.id|stringformat:"s" in selected_tags %}checked{% endif %}>
+            <label class="form-check-label check-label" for="tag-{{ tag.id }}">
+              {{ tag.name }}
+            </label>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% if not forloop.last %}
+      <hr class="my-2">
+    {% endif %}
+  {% endfor %}
+  <hr class="my-2">
+</div>
         
           <!-- Public checkbox -->
           <div class="form-check mb-3">

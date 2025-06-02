@@ -282,3 +282,48 @@ input#private:checked + label span {
   width: 20px;
   height: 20px;
 }
+
+
+
+.form-check-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.check-label {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  font-size: 0.9rem;
+}
+
+.form-check-input:checked + .check-label {
+  background-color: #add6f6;
+  border-color: #365481;
+  color: #fff;
+}
+
+.form-check-inline {
+  margin-right: 0rem;
+}
+.form-check-inline + .form-check-inline {
+  margin-left: 0;
+}
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+.mb-3 > strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/*Tag badges*/
+.badge-outline-primary {
+  color: #5583ef; 
+  background-color: #ffffff; 
+  border: 1px solid #a8c4ed;
+}
+
