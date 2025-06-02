@@ -7,7 +7,6 @@ from django.http import HttpResponseForbidden
 from .models import Event, FriendRequest, Profile, Attendance, EventInvite, InviteRequest, TagCategory, Tag
 from .forms import EventForm, ProfileUpdateForm
 from django.contrib.auth import get_user_model
-from .models import Notification
 from django.views.decorators.http import require_POST
 from django.db.models import Count, Q
 from .algorithm import compute_aura_score
@@ -152,21 +151,21 @@ def create_event(request):
             event = form.save(commit=False)
             event.host = request.user
             event.save()
-            if event.is_public:
-                for friend in request.user.profile.friends.all():
-                    Notification.objects.create(
-                        user=friend.user,
-                        message="Available event for you",
-                        link=f"/event/{event.id}/"
-                    )
+            form.save_m2m()
             return redirect('my_events')
         else:
             for err in form.non_field_errors():
                 messages.warning(request, err)
     else:
         form = EventForm()
-    return render(request, 'ETA/create_event.html', {'form': form})
 
+    categories = (
+        TagCategory.objects.annotate(num_tags=Count('tags')).order_by('num_tags', 'name').prefetch_related('tags'))
+
+    return render(request, 'ETA/create_event.html', {
+        'form':       form,
+        'categories': categories,
+    })
 
 #--------------------------------------------------My Events view filter logic--------------------------------------------#
 def my_events(request):
@@ -336,21 +335,45 @@ def event_detail(request, event_id):
 @login_required
 def event_edit(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    
-    # Only allow the event host to edit the event
+
+    # Only allow the event host to edit
     if request.user != event.host:
         return HttpResponseForbidden("You are not allowed to edit this event.")
-    
-    if request.method == 'POST':
-        # Include request.FILES in case there are file fields (e.g., image uploads)
+
+    categories = (
+        TagCategory.objects
+        .annotate(num_tags=Count("tags"))
+        .order_by("num_tags", "name")
+        .prefetch_related("tags")
+    )
+
+    selected_tags = list(event.tags.values_list("id", flat=True))
+
+    if request.method == "POST":
         form = EventForm(request.POST, request.FILES, instance=event)
         if form.is_valid():
-            form.save()
-            return redirect('event_detail', event_id=event.id)
+            event = form.save(commit=False)
+            event.save()
+
+            posted_tag_ids = request.POST.getlist("tags")
+            try:
+               
+                posted_tag_ids = [int(pk) for pk in posted_tag_ids]
+            except ValueError:
+                posted_tag_ids = []
+
+            event.tags.set(posted_tag_ids)
+            return redirect("event_detail", event_id=event.id)
     else:
         form = EventForm(instance=event)
-    
-    return render(request, 'ETA/event_edit.html', {'form': form, 'event': event})
+
+    context = {
+        "form":          form,
+        "event":         event,
+        "categories":    categories,
+        "selected_tags": [str(pk) for pk in selected_tags],
+    }
+    return render(request, "ETA/event_edit.html", context)
 
 #---------------------------------------------------------Friend related--------------------------------------------------#
 #-----------------------------Friend Search----------------------#
@@ -566,60 +589,60 @@ def decline_invite_request(request, event_id, req_id):
     inv_req.delete()
     messages.success(request, f"Invitation request from {inv_req.requested_by.username} declined.")
     return redirect('event_detail', event_id=event_id)
-#-----------------------Notification-------------------
-    # Always notify if it's a private event, even if invite already exists
-    if not event.is_public:
-     Notification.objects.create(
-        user=friend_profile.user,
-        message="You have been invited",
-        link=f"/event/{event.id}/"
-    )
-    return redirect('event_detail', event_id=event.id)
-
-
-
-@login_required
-def mark_all_notifications_read(request):
-    request.user.notifications.filter(is_read=False).update(is_read=True)
-    return redirect('event_list')
-
-
-@login_required
-def view_notification(request, notif_id):
-    notif = get_object_or_404(Notification, id=notif_id, user=request.user)
-    notif.is_read = True
-    notif.save()
-    return redirect(notif.link or 'event_list')  # fallback in case link is blank
-
 
 #---------------------------------------------------------Profilepage--------------------------------------------------#
+#---------------------------------------------------------Profilepage--------------------------------------------------#
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
+from .models import Event, Attendance
+
 @login_required
 def profilepage(request, username):
     profile_user = get_object_or_404(User, username=username)
-    hosted_events = Event.objects.upcomingEvent().filter(host=profile_user)
-    pastEvent = Event.objects.pastEvent().filter(host=profile_user)
 
+    # ---------------------------- Upcoming Events Hosted by Profile User ----------------------------
+    hosted_events = Event.objects.upcomingEvent().filter(host=profile_user).order_by('start_date')
+
+    hosted_events_data = []
     for event in hosted_events:
-        event.total_going = event.going_count
-        event.friends_going = (
-            event.friends_going_count(request.user)
-            if request.user.is_authenticated
-            else 0
-        )
+        try:
+            attendance = Attendance.objects.get(user=request.user, event=event)
+        except Attendance.DoesNotExist:
+            attendance = None
 
-    for event in pastEvent:
         event.total_going = event.going_count
-        event.friends_going = (
-            event.friends_going_count(request.user)
-            if request.user.is_authenticated
-            else 0
-        )
-    
+        event.friends_going = event.friends_going_count(request.user)
+
+        hosted_events_data.append({
+            'event': event,
+            'attendance': attendance,
+        })
+
+    # ---------------------------- Past Events Hosted by Profile User ----------------------------
+    past_events = Event.objects.pastEvent().filter(host=profile_user).order_by('-end_date')
+
+    past_events_data = []
+    for event in past_events:
+        try:
+            attendance = Attendance.objects.get(user=request.user, event=event)
+        except Attendance.DoesNotExist:
+            attendance = None
+
+        event.total_going = event.going_count
+        event.friends_going = event.friends_going_count(request.user)
+
+        past_events_data.append({
+            'event': event,
+            'attendance': attendance,
+        })
+
     context = {
         'profile_user': profile_user,
-        'hosted_events': hosted_events,
-        'pastEvent': pastEvent
+        'hosted_events': hosted_events_data,
+        'pastEvent': past_events_data,  # renamed to stay consistent with attendance-based structure
     }
+
     return render(request, 'ETA/profilepage.html', context)
 
 #------------------Delete-event---------------------------#
