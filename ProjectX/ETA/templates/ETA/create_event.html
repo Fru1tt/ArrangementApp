@@ -109,7 +109,7 @@
         
           <!-- Public checkbox -->
           <div class="form-check mb-3">
-            {{ form.is_public }} {{ form.is_public.label_tag }}
+            {{ form.is_public }}
           
           <!-- Public/Private toggle buttons -->
           <div class="form-group mb-3">
@@ -128,6 +128,7 @@
               <img src="{% static 'images/private.png' %}" alt="Private" style="width: 30px; vertical-align: middle;">
               <span class="ml-2">Private</span>
             </label>
+            <hr class="my-2">
           </div>
 
 
@@ -137,8 +138,8 @@
       </div>
     </form>
   </div>
-
-  <!-- Right Column (placeholder) -->
+</div>
+  <!-- Right Column  -->
   <div class="col-md-4 mb-4">
     <div class="card">
       <div class="card-body text-muted">
