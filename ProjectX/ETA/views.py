@@ -595,7 +595,11 @@ def profilepage(request, username):
     profile_user = get_object_or_404(User, username=username)
 
     # ---------------------------- Upcoming Events Hosted by Profile User ----------------------------
-    hosted_events = Event.objects.upcomingEvent().filter(host=profile_user).order_by('start_date')
+    hosted_events = Event.objects.upcomingEvent().filter(host=profile_user).filter(
+                 Q(is_public=True)
+                 | Q(eventinvite__to_user=request.user)
+                 | Q(host=request.user)
+         ).order_by('start_date').distinct()
 
     hosted_events_data = []
     for event in hosted_events:
@@ -603,6 +607,7 @@ def profilepage(request, username):
             attendance = Attendance.objects.get(user=request.user, event=event)
         except Attendance.DoesNotExist:
             attendance = None
+
 
         event.total_going = event.going_count
         event.friends_going = event.friends_going_count(request.user)
@@ -613,7 +618,11 @@ def profilepage(request, username):
         })
 
     # ---------------------------- Past Events Hosted by Profile User ----------------------------
-    past_events = Event.objects.pastEvent().filter(host=profile_user).order_by('-end_date')
+    past_events = Event.objects.pastEvent().filter(host=profile_user).order_by('-end_date').filter(
+                 Q(is_public=True)
+                 | Q(eventinvite__to_user=request.user)
+                 | Q(host=request.user)
+         ).order_by('-start_date').distinct()
 
     past_events_data = []
     for event in past_events:
