@@ -8,16 +8,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         TAG_CATEGORIES = {
-            "Music": ["Rock", "Jazz", "Classical", "Pop", "Hip-Hop", "EDM"],
-            "Sports": ["Football", "Golf", "Volleyball", "Horse Riding", "Basketball"],
-            "Festival": ["Summer", "Winter", "Paint", "Food", "Arts", "Cultural"],
-            "Game": ["Bowling", "Gokart", "Gel Blaster", "Video Games", "Board Games"],
-            "Dinner": ["Tapas", "BBQ", "Fine Dining", "Street Food", "Seafood"],
-            "Party": ["Birthday", "Theme", "Sunset", "Tropical", "Chinese"],
-            "Literature": ["Poetry", "Book Club", "Storytelling", "Lecture"],
-            "Venue Type": ["Bar", "Cafe", "Club", "Conference Center", "Gallery", "Lounge", "Marketplace", "Nightclub", "Restaurant", "Stadium", "Theatre", "Virtual"],
+            "Music": ["Rock", "Jazz", "Classical", "Pop", "Hip-Hop", "EDM", "Reggae"],
+            "Sports": ["Football", "Golf", "Volleyball", "Horse Riding", "Basketball", "Other"],
+            "Event Type": ["Festival", "Concert", "Conference", "Exhibition", "Fundraiser", "Lecture", "Meetup", "Networking", "Party", "Seminar", "Webinar", "Workshop"],
+            "Food & Drink": ["Bar", "Cooking Class", "Other", "Wine Tasting"],
+            "Literature": ["Poetry", "Book Club", "Storytelling"],
+            "Venue Type": ["Bar", "Cafe", "Club", "Conference Center", "Gallery", "Lounge", "Marketplace", "Nightclub", "Restaurant", "Stadium", "Theatre"],
             "Price": ["Free", "Paid"],
             "Age": ["18+", "21+", "Any", "Family Friendly"],
+            "Setting": ["Indoor", "Outdoor", "Virtual"]
         }
 
         for category_name, tags in TAG_CATEGORIES.items():
