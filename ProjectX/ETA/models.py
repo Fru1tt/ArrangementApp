@@ -153,4 +153,4 @@ class InviteRequest(models.Model):
         unique_together = ('event','requested_by','requested_user')
 
     def __str__(self):
-        return f"Invite request {self.from_user} to {self.to_user} for event {self.event.title}"
+        return f"Invite request from {self.requested_by} to {self.requested_user} for event {self.event.title}"
