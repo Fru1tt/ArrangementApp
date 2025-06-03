@@ -6,6 +6,7 @@ from .models import Tag
 from .models import TagCategory
 from .models import InviteRequest
 from .models import EventInvite
+from .models import FriendRequest
 
 admin.site.register(Event)
 admin.site.register(Profile)
@@ -14,5 +15,6 @@ admin.site.register(Tag)
 admin.site.register(TagCategory)
 admin.site.register(InviteRequest)
 admin.site.register(EventInvite)
+admin.site.register(FriendRequest)
 
 # Register your models here.
