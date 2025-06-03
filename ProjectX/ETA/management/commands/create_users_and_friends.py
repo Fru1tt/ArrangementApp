@@ -44,13 +44,13 @@ class Command(BaseCommand):
         for username in ["jan", "FK"]:
             user, created = User.objects.get_or_create(
                 username=username,
-                defaults={"email": f"{username}@example.com", "password": "password123"}
+                defaults={"email": f"{username}@example.com"}
             )
             if created:
                 user.set_password("password123")
                 user.save()
             # Ensure profile exists
-            Profile.objects.get_or_create(user=user)
+            profile, _ = Profile.objects.get_or_create(user=user)
             created_users.append(user)
 
         # Create 500 new users
@@ -62,7 +62,7 @@ class Command(BaseCommand):
             password = "password123"
             user = User.objects.create_user(username=username, email=email, password=password)
             # Access profile to trigger creation via signal
-            Profile.objects.get_or_create(user=user)
+            profile, _ = Profile.objects.get_or_create(user=user)
             created_users.append(user)
 
         total_users = len(created_users)
@@ -81,24 +81,28 @@ class Command(BaseCommand):
             circle_users = [created_users[i] for i in circle_indices if i < total_users]
             circles.append(circle_users)
 
-        # Within each circle, connect every user pair
+        # Within each circle, connect every user pair via their profiles
         for circle in circles:
             for i in range(len(circle)):
                 u = circle[i]
+                u_profile = u.profile
                 for j in range(i + 1, len(circle)):
                     v = circle[j]
-                    # Add each other as friends if not already
-                    if v not in u.profile.friends.all():
-                        u.profile.friends.add(v)
-                        v.profile.friends.add(u)
+                    v_profile = v.profile
+                    if v_profile not in u_profile.friends.all():
+                        u_profile.friends.add(v_profile)
+                        v_profile.friends.add(u_profile)
 
         # Add cross-circle friendships to simulate realistic network
         extra_ties = total_users * 2
         for _ in range(extra_ties):
             u = random.choice(created_users)
             v = random.choice(created_users)
-            if u != v and v not in u.profile.friends.all():
-                u.profile.friends.add(v)
-                v.profile.friends.add(u)
+            if u != v:
+                u_profile = u.profile
+                v_profile = v.profile
+                if v_profile not in u_profile.friends.all():
+                    u_profile.friends.add(v_profile)
+                    v_profile.friends.add(u_profile)
 
         self.stdout.write(f"Created {TOTAL_NEW_USERS} new users (plus 'jan' and 'FK') and assigned friend relationships.")
