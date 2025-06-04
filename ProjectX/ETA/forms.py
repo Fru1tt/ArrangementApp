@@ -23,12 +23,6 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'email']
 
-class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['image'] 
-
-
 class PasswordChangeForm(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput, label="Old Password")
     new_password1 = forms.CharField(widget=forms.PasswordInput, label="New Password")
