@@ -298,10 +298,9 @@ def event_detail(request, event_id):
         requested_user__in=[f.user for f in inviteable_friends]
     ).values_list('requested_user__id', flat=True)
 
-    # Determine if current user can request invites (only on private events if host or already invited)
+    # Determine if current user can request invites (only on private events if already invited)
     can_request = False
     if not event.is_public and (
-        event.host == user or
         EventInvite.objects.filter(event=event, to_user=user).exists()
     ):
         can_request = True
